@@ -24,9 +24,9 @@
 
     cd "$1"
     path_2=$(echo "$1"Contents/)
-    find "$path_2"Menu.command -exec xattr -d -r com.apple.quarantine {} \;
-    find "$path_2"Switch_mini_drag_drop.command -exec xattr -d -r com.apple.quarantine {} \;
-    find "$path_2"Switch_mini_app.command -exec xattr -d -r com.apple.quarantine {} \;
+    #find "$path_2"Menu.command -exec xattr -d -r com.apple.quarantine {} \;
+    #find "$path_2"Switch_mini_drag_drop.command -exec xattr -d -r com.apple.quarantine {} \;
+    #find "$path_2"Switch_mini_app.command -exec xattr -d -r com.apple.quarantine {} \;
     export PATH="$path_2":$PATH
     cd "$(cat /tmp/switchmini/path_1)"
     rm "$(cat /tmp/switchmini/path_1)"/LOG.txt
@@ -159,7 +159,7 @@ EOF
 done
 
 #remove any old fpm files
-    [ -f *.fpm ] && rm *.fpm
+    rm *.fpm
 
 counter=0
 val=1
@@ -178,7 +178,7 @@ done
 #wait for jobs to end
     wait < <(jobs -p)
 #rm any created fpm files
-    [ -f *.fpm ] && rm *.fpm
+    rm *.fpm
 
 #Thanks to Bouncyball(mlv_dump_for_steroids, A1ex,g3gg0(raw2dng, mlv_dump), Dave Coffin(dcraw) Fabrice Bellard(FFmpeg) Phil Harvey(Exiftool) Andreas Huggel(exiv2) BWF MetaEdit(FADGI) #dfort(Focus pixel script).
 #Copyright Danne
