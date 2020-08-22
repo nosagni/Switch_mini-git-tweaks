@@ -16,6 +16,11 @@
  # 51 Franklin Street, Fifth Floor,
  # Boston, MA  02110-1301, USA.
 
+#keep this for later #set first_out.app path
+    #if [ -d "$(cat /tmp/folder_paths.txt | head -1)" ]
+    #then
+    #echo "$(cat /tmp/folder_paths.txt | head -1)" > /tmp/path_1b
+    #fi
 
     cd "$(cat /tmp/switchmini/path_1)"
     path_2="$(cat /tmp/content)"
