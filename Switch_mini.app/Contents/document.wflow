@@ -51,7 +51,7 @@
 				<key>ActionParameters</key>
 				<dict>
 					<key>source</key>
-					<string>on run {input, parameters}		# Remove old file -- is this still needed?	do shell script "if test $(find '/tmp/folder_paths.txt' -mtime +5s); then rm /tmp/folder_paths.txt; fi"		set theInputFolder to null		set foldersToProcess to {}		# Process files and folders dropped onto the app	repeat with currentFile in input				if kind of (info for currentFile) is "folder" then			set currentPath to POSIX path of currentFile			# Add this path to the text file of paths to process 			do shell script "echo " &amp; currentPath &amp; " &gt;&gt; /tmp/folder_paths.txt"			set foldersToProcess to foldersToProcess &amp; currentPath					else			# display dialog "Only drag folders please"			display notification "Only drag folders please" with title "Switch mini"		end if			end repeat		if not (count of foldersToProcess) &gt; 0 then		try			set allLines to read "/tmp/path_1" as text			# read only first line, ignore e.g. blank lines at bottom			set firstLine to item 1 of paragraphs of allLines			set lastFolderPath to POSIX file firstLine			lastFolderPath as alias		on error			# Fall back to a default folder if last folder doesn't exist			set lastFolderPath to path to desktop folder		end try				# Ask user to choose a folder, no folders were dragged on the app icon		set theInputFolder to choose folder with prompt "Please select an input folder with MLV files to process:" default location lastFolderPath	else		set theInputFolder to first item of foldersToProcess	end if		# Make and refresh tmp config dir -- TODO: change to different location	do shell script "rm -r /tmp/switchmini; mkdir -p /tmp/switchmini"	# Remember last used path -- TODO: store inside config dir	do shell script "echo " &amp; POSIX path of theInputFolder &amp; " &gt; /tmp/path_1"	# Do we still need the statement below?	do shell script "echo " &amp; POSIX path of theInputFolder &amp; " &gt; /tmp/switchmini/path_1"		set contentsPath to POSIX path of (path to me) &amp; "Contents/"		activate application "Terminal"	tell application "Terminal"		do script "cd " &amp; contentsPath &amp; "; . Switch_mini_app.sh " &amp; contentsPath &amp; "; clear;"	end tellend run</string>
+					<string>on run {input, parameters}		# Remove old file -- is this still needed?	do shell script "if test $(find '/tmp/folder_paths.txt' -mtime +5s); then rm /tmp/folder_paths.txt; fi"		set theInputFolder to null		set foldersToProcess to {}		# Process files and folders dropped onto the app	repeat with currentFile in input				if kind of (info for currentFile) is "folder" then			set currentPath to POSIX path of currentFile			# Add this path to the text file of paths to process 			do shell script "echo " &amp; currentPath &amp; " &gt;&gt; /tmp/folder_paths.txt"			set foldersToProcess to foldersToProcess &amp; currentPath					else			# display dialog "Only drag folders please"			display notification "Only drag folders please" with title "Switch mini"		end if			end repeat		if not (count of foldersToProcess) &gt; 0 then		try			set allLines to read "/tmp/path_1" as text			# read only first line, ignore e.g. blank lines at bottom			set firstLine to item 1 of paragraphs of allLines			set lastFolderPath to POSIX file firstLine			lastFolderPath as alias		on error			# Fall back to a default folder if last folder doesn't exist			set lastFolderPath to path to desktop folder		end try				# Ask user to choose a folder, no folders were dragged on the app icon		set theInputFolder to choose folder with prompt "Please select an input folder with MLV files to process:" default location lastFolderPath	else		set theInputFolder to first item of foldersToProcess	end if		# Make and refresh tmp config dir -- TODO: change to different location	do shell script "rm -r /tmp/switchmini; mkdir -p /tmp/switchmini"	# Remember last used path -- TODO: store inside config dir	do shell script "echo " &amp; POSIX path of theInputFolder &amp; " &gt; /tmp/path_1"	# Do we still need the statement below?	do shell script "echo " &amp; POSIX path of theInputFolder &amp; " &gt; /tmp/switchmini/path_1"		set contentsPath to POSIX path of (path to me) &amp; "Contents/"		activate application "Terminal"	tell application "Terminal"		do script "cd " &amp; contentsPath &amp; "; . Switch_mini_app.sh; clear;"	end tellend run</string>
 				</dict>
 				<key>BundleIdentifier</key>
 				<string>com.apple.Automator.RunScript</string>
@@ -105,196 +105,16 @@ end run</string>
 				<key>isViewVisible</key>
 				<true/>
 				<key>location</key>
-				<string>302.000000:645.000000</string>
+				<string>309.500000:645.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
 			<true/>
 		</dict>
-		<dict>
-			<key>action</key>
-			<dict>
-				<key>AMAccepts</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Optional</key>
-					<true/>
-					<key>Types</key>
-					<array>
-						<string>com.apple.cocoa.string</string>
-					</array>
-				</dict>
-				<key>AMActionVersion</key>
-				<string>2.0.3</string>
-				<key>AMApplication</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>AMParameterProperties</key>
-				<dict>
-					<key>COMMAND_STRING</key>
-					<dict/>
-					<key>CheckedForUserDefaultShell</key>
-					<dict/>
-					<key>inputMethod</key>
-					<dict/>
-					<key>shell</key>
-					<dict/>
-					<key>source</key>
-					<dict/>
-				</dict>
-				<key>AMProvides</key>
-				<dict>
-					<key>Container</key>
-					<string>List</string>
-					<key>Types</key>
-					<array>
-						<string>com.apple.cocoa.string</string>
-					</array>
-				</dict>
-				<key>ActionBundlePath</key>
-				<string>/System/Library/Automator/Run Shell Script.action</string>
-				<key>ActionName</key>
-				<string>Run Shell Script</string>
-				<key>ActionParameters</key>
-				<dict>
-					<key>COMMAND_STRING</key>
-					<string>cd "$1"
-. Switch_mini_app.sh "$1"</string>
-					<key>CheckedForUserDefaultShell</key>
-					<true/>
-					<key>inputMethod</key>
-					<integer>1</integer>
-					<key>shell</key>
-					<string>/bin/bash</string>
-					<key>source</key>
-					<string></string>
-				</dict>
-				<key>BundleIdentifier</key>
-				<string>com.apple.RunShellScript</string>
-				<key>CFBundleVersion</key>
-				<string>2.0.3</string>
-				<key>CanShowSelectedItemsWhenRun</key>
-				<false/>
-				<key>CanShowWhenRun</key>
-				<true/>
-				<key>Category</key>
-				<array>
-					<string>AMCategoryUtilities</string>
-				</array>
-				<key>Class Name</key>
-				<string>RunShellScriptAction</string>
-				<key>Disabled</key>
-				<true/>
-				<key>InputUUID</key>
-				<string>E6688FA9-7C24-43B6-94E4-FB10EFE71931</string>
-				<key>Keywords</key>
-				<array>
-					<string>Shell</string>
-					<string>Script</string>
-					<string>Command</string>
-					<string>Run</string>
-					<string>Unix</string>
-				</array>
-				<key>OutputUUID</key>
-				<string>81B94D1D-A645-4875-9772-95205E81D8E1</string>
-				<key>UUID</key>
-				<string>0AD18125-3C69-4D72-8694-CE116EC75FAD</string>
-				<key>UnlocalizedApplications</key>
-				<array>
-					<string>Automator</string>
-				</array>
-				<key>arguments</key>
-				<dict>
-					<key>0</key>
-					<dict>
-						<key>default value</key>
-						<integer>0</integer>
-						<key>name</key>
-						<string>inputMethod</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>0</string>
-					</dict>
-					<key>1</key>
-					<dict>
-						<key>default value</key>
-						<string></string>
-						<key>name</key>
-						<string>source</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>1</string>
-					</dict>
-					<key>2</key>
-					<dict>
-						<key>default value</key>
-						<false/>
-						<key>name</key>
-						<string>CheckedForUserDefaultShell</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>2</string>
-					</dict>
-					<key>3</key>
-					<dict>
-						<key>default value</key>
-						<string></string>
-						<key>name</key>
-						<string>COMMAND_STRING</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>3</string>
-					</dict>
-					<key>4</key>
-					<dict>
-						<key>default value</key>
-						<string>/bin/sh</string>
-						<key>name</key>
-						<string>shell</string>
-						<key>required</key>
-						<string>0</string>
-						<key>type</key>
-						<string>0</string>
-						<key>uuid</key>
-						<string>4</string>
-					</dict>
-				</dict>
-				<key>isViewVisible</key>
-				<true/>
-				<key>location</key>
-				<string>302.000000:827.000000</string>
-				<key>nibPath</key>
-				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
-			</dict>
-			<key>isViewVisible</key>
-			<true/>
-		</dict>
 	</array>
 	<key>connectors</key>
-	<dict>
-		<key>CB6044B6-64AE-4609-9BEF-6E531A8969BE</key>
-		<dict>
-			<key>from</key>
-			<string>28D43C0C-7209-4B27-925B-7A13C901DDD3 - 28D43C0C-7209-4B27-925B-7A13C901DDD3</string>
-			<key>to</key>
-			<string>0AD18125-3C69-4D72-8694-CE116EC75FAD - 0AD18125-3C69-4D72-8694-CE116EC75FAD</string>
-		</dict>
-	</dict>
+	<dict/>
 	<key>variables</key>
 	<array>
 		<dict>

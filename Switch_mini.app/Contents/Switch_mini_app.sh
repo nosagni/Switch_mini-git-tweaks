@@ -21,9 +21,8 @@
     #then
     #echo "$(cat /tmp/folder_paths.txt | head -1)" > /tmp/path_1b
     #fi
-
+    path_2="$(pwd)/"
     cd "$(cat /tmp/switchmini/path_1)"
-    path_2="$1"
 
     #find "$path_2"Menu.command -exec xattr -d -r com.apple.quarantine {} \;
     #find "$path_2"Switch_mini_drag_drop.command -exec xattr -d -r com.apple.quarantine {} \;
