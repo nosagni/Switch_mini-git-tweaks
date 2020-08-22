@@ -1003,6 +1003,10 @@ else
 mv "$1"Contents/First_out.app/Contents/documentTMP.wflow "$1"Contents/First_out.app/Contents/document.wflow
 cp "$1"Contents/First_out.app/Contents/document.wflow "$1"Contents/First_out.app/Contents/documentTMP.wflow
 fi
+if [ -d "$(cat /tmp/path_1 | head -1)" ] 
+then
+perl -pi -e 's/~\/Desktop/'"$(cat /tmp/path_1 | head -1 | sed 's/\//\\\//g')"'/g' "$1"Contents/First_out.app/Contents/document.wflow
+fi
 open "$1"Contents/First_out.app
 </string>
 					<key>CheckedForUserDefaultShell</key>
@@ -1127,54 +1131,54 @@ open "$1"Contents/First_out.app
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>1F152A53-4F23-43A8-801D-F1CE57469AB5</key>
-		<dict>
-			<key>from</key>
-			<string>EC733554-134D-44F4-9FE4-6D99F30AACF3 - EC733554-134D-44F4-9FE4-6D99F30AACF3</string>
-			<key>to</key>
-			<string>99AC22F7-C6DA-46B2-A6D5-7E08FF9EFA81 - 99AC22F7-C6DA-46B2-A6D5-7E08FF9EFA81</string>
-		</dict>
-		<key>7F30DCEB-295E-45CC-BD66-DDABBA636377</key>
-		<dict>
-			<key>from</key>
-			<string>EFF00407-3A4B-43D4-918C-96A5F4356914 - EFF00407-3A4B-43D4-918C-96A5F4356914</string>
-			<key>to</key>
-			<string>19F79BF5-E453-4AB8-B346-B5E0B3EB6308 - 19F79BF5-E453-4AB8-B346-B5E0B3EB6308</string>
-		</dict>
-		<key>82F59CD5-A457-4E0B-BFD1-7614330755D4</key>
+		<key>33B44E5B-CED8-4190-BB23-4553F2FBDF0F</key>
 		<dict>
 			<key>from</key>
 			<string>19F79BF5-E453-4AB8-B346-B5E0B3EB6308 - 19F79BF5-E453-4AB8-B346-B5E0B3EB6308</string>
 			<key>to</key>
 			<string>1D18903D-671D-4480-94B8-693BFB9603D0 - 1D18903D-671D-4480-94B8-693BFB9603D0</string>
 		</dict>
-		<key>C1EEC8F2-C81B-41C7-98AD-E00F631EBB50</key>
-		<dict>
-			<key>from</key>
-			<string>7B6AB707-7719-46AE-9F02-4CD5B68795AB - 7B6AB707-7719-46AE-9F02-4CD5B68795AB</string>
-			<key>to</key>
-			<string>EFF00407-3A4B-43D4-918C-96A5F4356914 - EFF00407-3A4B-43D4-918C-96A5F4356914</string>
-		</dict>
-		<key>C5149FB4-5A76-403D-9721-B6092B72CC48</key>
+		<key>48E5BD57-B549-445B-B3B1-A576022D70D5</key>
 		<dict>
 			<key>from</key>
 			<string>0F37D7A1-A5D5-4F77-A7AA-32101E939ACE - 0F37D7A1-A5D5-4F77-A7AA-32101E939ACE</string>
 			<key>to</key>
 			<string>7B6AB707-7719-46AE-9F02-4CD5B68795AB - 7B6AB707-7719-46AE-9F02-4CD5B68795AB</string>
 		</dict>
-		<key>DAB70C6F-4D93-490E-95D4-AAA20FAE5F01</key>
+		<key>709A7B47-E133-40D1-8520-AB18D9328156</key>
 		<dict>
 			<key>from</key>
-			<string>1D18903D-671D-4480-94B8-693BFB9603D0 - 1D18903D-671D-4480-94B8-693BFB9603D0</string>
-			<key>to</key>
 			<string>EC733554-134D-44F4-9FE4-6D99F30AACF3 - EC733554-134D-44F4-9FE4-6D99F30AACF3</string>
+			<key>to</key>
+			<string>99AC22F7-C6DA-46B2-A6D5-7E08FF9EFA81 - 99AC22F7-C6DA-46B2-A6D5-7E08FF9EFA81</string>
 		</dict>
-		<key>F0D8EC56-F804-4148-AC75-F554162E526E</key>
+		<key>9A8DB9F2-397A-4652-B79C-919EBA768CD2</key>
+		<dict>
+			<key>from</key>
+			<string>EFF00407-3A4B-43D4-918C-96A5F4356914 - EFF00407-3A4B-43D4-918C-96A5F4356914</string>
+			<key>to</key>
+			<string>19F79BF5-E453-4AB8-B346-B5E0B3EB6308 - 19F79BF5-E453-4AB8-B346-B5E0B3EB6308</string>
+		</dict>
+		<key>A1C22246-0689-4FAC-853F-7D99A70E6151</key>
+		<dict>
+			<key>from</key>
+			<string>7B6AB707-7719-46AE-9F02-4CD5B68795AB - 7B6AB707-7719-46AE-9F02-4CD5B68795AB</string>
+			<key>to</key>
+			<string>EFF00407-3A4B-43D4-918C-96A5F4356914 - EFF00407-3A4B-43D4-918C-96A5F4356914</string>
+		</dict>
+		<key>C46EC34A-B42B-49B2-B89D-23919EF116E9</key>
 		<dict>
 			<key>from</key>
 			<string>99AC22F7-C6DA-46B2-A6D5-7E08FF9EFA81 - 99AC22F7-C6DA-46B2-A6D5-7E08FF9EFA81</string>
 			<key>to</key>
 			<string>061B4F6E-8EB9-48F3-B68F-6EDA2D28CC50 - 061B4F6E-8EB9-48F3-B68F-6EDA2D28CC50</string>
+		</dict>
+		<key>DFF4DC53-5134-4F10-ADA0-DA1744A6A038</key>
+		<dict>
+			<key>from</key>
+			<string>1D18903D-671D-4480-94B8-693BFB9603D0 - 1D18903D-671D-4480-94B8-693BFB9603D0</string>
+			<key>to</key>
+			<string>EC733554-134D-44F4-9FE4-6D99F30AACF3 - EC733554-134D-44F4-9FE4-6D99F30AACF3</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>

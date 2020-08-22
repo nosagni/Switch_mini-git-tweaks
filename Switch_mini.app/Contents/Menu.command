@@ -758,7 +758,7 @@ half=$(echo $(sysctl -n hw.physicalcpu) / 2 | bc -l | cut -d "." -f1)
 echo "Threads" $(echo $(sysctl -n hw.physicalcpu) + $half | bc -l) > /tmp/THREADS
 THREADS=$(cat /tmp/THREADS)
 rm /tmp/content
-rm /tmp/path_1b
+rm /tmp/path_1
 rm /tmp/output 1> /dev/null 2>&1 &
 #set your output folder
     if [ x"$out" = x ]

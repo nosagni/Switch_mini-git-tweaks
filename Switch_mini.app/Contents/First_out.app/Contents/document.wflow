@@ -324,6 +324,8 @@ end run</string>
 rm -r /tmp/switchmini
 mkdir -p /tmp/switchmini
 echo "$1" &gt; /tmp/switchmini/path_1
+#to remember last selected path
+echo "$1" &gt; /tmp/path_1
 
 </string>
 					<key>CheckedForUserDefaultShell</key>
@@ -436,14 +438,14 @@ echo "$1" &gt; /tmp/switchmini/path_1
 					</dict>
 				</dict>
 				<key>isViewVisible</key>
-				<false/>
+				<true/>
 				<key>location</key>
-				<string>314.500000:193.000000</string>
+				<string>314.500000:334.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
 			<key>isViewVisible</key>
-			<false/>
+			<true/>
 		</dict>
 		<dict>
 			<key>action</key>
@@ -540,7 +542,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>314.500000:234.000000</string>
+				<string>314.500000:375.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run AppleScript.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -710,7 +712,7 @@ end run</string>
 				<key>isViewVisible</key>
 				<false/>
 				<key>location</key>
-				<string>314.500000:275.000000</string>
+				<string>314.500000:416.000000</string>
 				<key>nibPath</key>
 				<string>/System/Library/Automator/Run Shell Script.action/Contents/Resources/Base.lproj/main.nib</string>
 			</dict>
@@ -720,33 +722,33 @@ end run</string>
 	</array>
 	<key>connectors</key>
 	<dict>
-		<key>2126EEEE-B90C-4866-A2FD-7602A1B706F1</key>
-		<dict>
-			<key>from</key>
-			<string>88D268A1-FA26-41CB-BD6A-19B3CB9D89BE - 88D268A1-FA26-41CB-BD6A-19B3CB9D89BE</string>
-			<key>to</key>
-			<string>19BAF67B-4340-4F87-A3B4-E49DF5E7C1B3 - 19BAF67B-4340-4F87-A3B4-E49DF5E7C1B3</string>
-		</dict>
-		<key>9018DD0A-BB81-4F71-92F4-A48BDC1AA712</key>
-		<dict>
-			<key>from</key>
-			<string>92213C47-9018-49F0-B8C5-5EFB68A39F5A - 92213C47-9018-49F0-B8C5-5EFB68A39F5A</string>
-			<key>to</key>
-			<string>88D268A1-FA26-41CB-BD6A-19B3CB9D89BE - 88D268A1-FA26-41CB-BD6A-19B3CB9D89BE</string>
-		</dict>
-		<key>97C02536-E05F-4925-8B6E-335446DDCB0D</key>
-		<dict>
-			<key>from</key>
-			<string>19BAF67B-4340-4F87-A3B4-E49DF5E7C1B3 - 19BAF67B-4340-4F87-A3B4-E49DF5E7C1B3</string>
-			<key>to</key>
-			<string>9D468DC9-D097-4ECA-BFB3-C8D4F2F57927 - 9D468DC9-D097-4ECA-BFB3-C8D4F2F57927</string>
-		</dict>
-		<key>F1D47372-A4C3-4344-9B36-23C795281847</key>
+		<key>8B019AF9-8A30-4BF9-96EA-7D00D7FCECB9</key>
 		<dict>
 			<key>from</key>
 			<string>9D468DC9-D097-4ECA-BFB3-C8D4F2F57927 - 9D468DC9-D097-4ECA-BFB3-C8D4F2F57927</string>
 			<key>to</key>
 			<string>5FF82C81-2597-4595-9045-674FE4073B09 - 5FF82C81-2597-4595-9045-674FE4073B09</string>
+		</dict>
+		<key>AEB3A82D-30F3-4B44-91CF-DD12C53994B4</key>
+		<dict>
+			<key>from</key>
+			<string>88D268A1-FA26-41CB-BD6A-19B3CB9D89BE - 88D268A1-FA26-41CB-BD6A-19B3CB9D89BE</string>
+			<key>to</key>
+			<string>19BAF67B-4340-4F87-A3B4-E49DF5E7C1B3 - 19BAF67B-4340-4F87-A3B4-E49DF5E7C1B3</string>
+		</dict>
+		<key>C7C3D011-CED8-4753-A49F-7EAEAFFEA4EC</key>
+		<dict>
+			<key>from</key>
+			<string>19BAF67B-4340-4F87-A3B4-E49DF5E7C1B3 - 19BAF67B-4340-4F87-A3B4-E49DF5E7C1B3</string>
+			<key>to</key>
+			<string>9D468DC9-D097-4ECA-BFB3-C8D4F2F57927 - 9D468DC9-D097-4ECA-BFB3-C8D4F2F57927</string>
+		</dict>
+		<key>EF94CD61-318F-4ED4-9120-2B768CD02061</key>
+		<dict>
+			<key>from</key>
+			<string>92213C47-9018-49F0-B8C5-5EFB68A39F5A - 92213C47-9018-49F0-B8C5-5EFB68A39F5A</string>
+			<key>to</key>
+			<string>88D268A1-FA26-41CB-BD6A-19B3CB9D89BE - 88D268A1-FA26-41CB-BD6A-19B3CB9D89BE</string>
 		</dict>
 	</dict>
 	<key>workflowMetaData</key>
