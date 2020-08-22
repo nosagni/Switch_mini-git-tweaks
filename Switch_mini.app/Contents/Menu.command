@@ -25,24 +25,11 @@ then
 #new output folder
 if ! ls /tmp/switchmini/O_trap
 then
-if ls /tmp/output
-then
-echo > /tmp/switchmini/O_trap
-mkdir -p "$(cat /tmp/output)"
-out=$(cat /tmp/"output")
-bold="$(tput bold)"
-normal="$(tput sgr0)"
-blue="$(tput setaf 4)"
-green="$(tput setaf 2)"
-clear
-echo "
-
-"$(tput bold)"your current output folder is "$(tput setaf 4)"$(cat /tmp/output)""$(tput sgr0)"
-sleep 2
-else
-out=
+if [ -f /tmp/output ]
+then 
+osascript -e 'display notification "Your output folder has changed" with title "Switch mini"'
 fi
-fi
+fi 
 
 
 THREADS= ;
@@ -56,6 +43,9 @@ half=$(echo $(sysctl -n hw.physicalcpu) / 2 | bc -l | cut -d "." -f1)
 echo "Threads" $(echo $(sysctl -n hw.physicalcpu) + $half | bc -l) > /tmp/THREADS
 THREADS=$(cat /tmp/THREADS)
 fi
+
+#set your input folder
+in="$(cat /tmp/switchmini/path_1)"/
 
 #set your output folder
     if ! [ x"$(cat /tmp/"output")" = x ]
@@ -199,8 +189,9 @@ do
     $(tput bold)Switch mini$(tput sgr0)
     -----------
 
-$(tput bold)output: $(tput setaf 4)$out$(tput sgr0)
-$(tput bold)physical cpu: $(tput setaf 4)$cpu$(tput sgr0)
+    $(tput bold)MLV input: $(tput setaf 4)$in$(tput sgr0)
+    $(tput bold)dng output: $(tput setaf 4)$out$(tput sgr0)
+    $(tput bold)physical cpu: $(tput setaf 4)$cpu$(tput sgr0)
 	
 -- DNG output --
     $(tput bold)(00) no chroma smoothing$(tput sgr0)   $nocs
