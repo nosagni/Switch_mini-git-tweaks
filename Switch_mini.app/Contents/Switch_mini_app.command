@@ -23,7 +23,7 @@
     #fi
 
     cd "$(cat /tmp/switchmini/path_1)"
-    path_2="$(cat /tmp/content)"
+    path_2="$1"
 
     #find "$path_2"Menu.command -exec xattr -d -r com.apple.quarantine {} \;
     #find "$path_2"Switch_mini_drag_drop.command -exec xattr -d -r com.apple.quarantine {} \;
