@@ -799,7 +799,51 @@ printf '\e[3;450;0t'
 
     "r") 
 rm /tmp/switchmini/ignition 
+printf '\e[8;7;20t'
+printf '\e[3;750;0t'
+bold="$(tput bold)"
+normal="$(tput sgr0)"
+red="$(tput setaf 1)"
+reset="$(tput sgr0)"
+green="$(tput setaf 2)"
+underline="$(tput smul)"
+standout="$(tput smso)"
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+green="$(tput setaf 2)"
+yellow="$(tput setaf 3)"
+blue="$(tput setaf 4)"
+magenta="$(tput setaf 5)"
+cyan="$(tput setaf 6)"
+white="$(tput setaf 7)"
+
+while : 
+do 
+    clear
+cat<<EOF
+------------
+$(tput setaf 1)$(tput bold)Abort button$(tput sgr0)
+------------
+
+$(tput bold)$(tput setaf 1)(K) Abort$(tput sgr0)
+EOF
+    read -n1
+    case "$REPLY" in
+
+    "K") 
+rm -r /tmp/switchmini
+killall sleep
+killall dcraw
+killall exiv2
+killall exiftool
+killall mlv_dump
 osascript -e 'tell application "Terminal" to close first window' & exit
+;;
+    "Q")  echo "case sensitive!!"   ;;
+     * )  echo "invalid option"     ;;
+    esac 
+done 
 ;;
 
     "q")   
