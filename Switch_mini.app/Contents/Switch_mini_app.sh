@@ -17,6 +17,17 @@
 # 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301, USA.
 
+trap cleanup 0 1 2 3 6 15
+
+cleanup() {
+
+    # https://superuser.com/a/562804
+    # $$ gives us the PID of the running shell. So, kill $$ would send a SIGTERM to the shell process.
+    # However, if we negate the PID, kill sends a SIGTERM to every process in the process group.
+    # We need the -- beforehand so kill knows that -$$ is a process group ID and not a flag.
+    kill -- -$$
+}
+
 preferenceDir=~/Library/Preferences/Dannephoto/
 path_2="$(pwd)/"
 cd "$(cat "$preferenceDir"switchmini/path_1)"
@@ -25,7 +36,7 @@ export PATH="$path_2":$PATH
 export PATH="$(cat "$preferenceDir"switchmini/"path_2")":$PATH
 
 rm "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt
-exec &> >(tee -a "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt >&2)
+# exec &> >(tee -a "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt >&2)
 
 mkdir -p "$preferenceDir"switchmini/
 # #Call menu selector
@@ -887,7 +898,10 @@ EOF
     "O") do_select_output_folder ;;
     "TH") do_set_thread_count ;;
     "q") do_quit ;;
-    "r") do_run; break ;;
+    "r")
+        do_run
+        break
+        ;;
 
     *) echo "Invalid option. Try another one." ;;
     esac
@@ -1003,7 +1017,6 @@ n=1
 while [ $counter -lt $THR ]; do
     # bash -c "$path_2/mlv_dump.sh ${alpha:$num:$n} & pid1=$!"
     mlv_dump_thread ${alpha:$num:$n} &
-    pid$num=$!
 
     #increment both numbers and alphabet
     num=$(($num + 1))
