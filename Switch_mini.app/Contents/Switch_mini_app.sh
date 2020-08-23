@@ -387,8 +387,8 @@ black level setting reset"$(tput sgr0)
         sleep 1
         bll=
     else
-        printf '\e[8;16;53t'
-        printf '\e[3;410;100t'
+        # printf '\e[8;16;53t'
+        # printf '\e[3;410;100t'
         clear
         echo $(tput bold)"Specify black level:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 2048 and hit enter)"
         read input_variable
@@ -397,8 +397,8 @@ black level setting reset"$(tput sgr0)
         bll=$(grep -Eo '.{0,0}black-fix.{0,6}' "$preferenceDir"mlv_dump_settings)
     fi
     sleep 1
-    printf '\e[8;43;73t'
-    printf '\e[3;450;0t'
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
 }
 
 do_wll() {
@@ -413,8 +413,8 @@ white level setting reset"$(tput sgr0)
         sleep 1
         wll=
     else
-        printf '\e[8;16;53t'
-        printf '\e[3;410;100t'
+        # printf '\e[8;16;53t'
+        # printf '\e[3;410;100t'
         clear
         echo $(tput bold)"Specify white level:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 15000 and hit enter)"
         read input_variable
@@ -423,8 +423,8 @@ white level setting reset"$(tput sgr0)
         wll=$(grep -Eo '.{0,0}white-fix.{0,6}' "$preferenceDir"mlv_dump_settings)
     fi
     sleep 1
-    printf '\e[8;43;73t'
-    printf '\e[3;450;0t'
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
 }
 
 do_compress() {
@@ -533,8 +533,8 @@ deflicker level setting reset"$(tput sgr0)
         sleep 1
         dfl=
     else
-        printf '\e[8;16;53t'
-        printf '\e[3;410;100t'
+        # printf '\e[8;16;53t'
+        # printf '\e[3;410;100t'
         clear
         echo $(tput bold)"Specify deflicker level:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 3072 and hit enter)"
         read input_variable
@@ -543,8 +543,8 @@ deflicker level setting reset"$(tput sgr0)
         dfl=$(grep -Eo '.{0,0}deflicker.{0,6}' "$preferenceDir"mlv_dump_settings)
     fi
     sleep 1
-    printf '\e[8;43;73t'
-    printf '\e[3;450;0t'
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
 }
 
 do_btp() {
@@ -559,8 +559,8 @@ bitdepth reset"$(tput sgr0)
         sleep 1
         btp=
     else
-        printf '\e[8;16;53t'
-        printf '\e[3;410;100t'
+        # printf '\e[8;16;53t'
+        # printf '\e[3;410;100t'
         clear
         echo $(tput bold)"Specify bitdepth:$(tput sgr0)(between$(tput sgr0) 1-16 and hit enter)"
         read input_variable
@@ -569,8 +569,8 @@ bitdepth reset"$(tput sgr0)
         btp=$(grep -Eo '.{0,0}-b.{0,3}' "$preferenceDir"mlv_dump_settings)
     fi
     sleep 1
-    printf '\e[8;43;73t'
-    printf '\e[3;450;0t'
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
 }
 
 do_fdepth() {
@@ -600,8 +600,8 @@ focus pixel method reset"$(tput sgr0)
         sleep 1
         fcpm=
     else
-        printf '\e[8;16;65t'
-        printf '\e[3;410;100t'
+        # printf '\e[8;16;65t'
+        # printf '\e[3;410;100t'
         clear
         echo $(tput bold)"Specify focus pixel method:$(tput sgr0)(between$(tput sgr0) 0 or 1 and hit enter)"
         read input_variable
@@ -610,8 +610,8 @@ focus pixel method reset"$(tput sgr0)
         fcpm=$(grep -Eo '.{0,0}fpi.{0,2}' "$preferenceDir"mlv_dump_settings)
     fi
     sleep 1
-    printf '\e[8;43;73t'
-    printf '\e[3;450;0t'
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
 }
 
 do_bpm() {
@@ -626,8 +626,8 @@ bad pixel method reset"$(tput sgr0)
         sleep 1
         bpm=
     else
-        printf '\e[8;16;65t'
-        printf '\e[3;410;100t'
+        # printf '\e[8;16;65t'
+        # printf '\e[3;410;100t'
         clear
         echo $(tput bold)"Specify bad pixel method:$(tput sgr0)(between$(tput sgr0) 0 or 1 and hit enter)"
         read input_variable
@@ -636,8 +636,8 @@ bad pixel method reset"$(tput sgr0)
         bpm=$(grep -Eo '.{0,0}bpi.{0,2}' "$preferenceDir"mlv_dump_settings)
     fi
     sleep 1
-    printf '\e[8;43;73t'
-    printf '\e[3;450;0t'
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
 }
 
 do_awb() {
@@ -648,8 +648,8 @@ do_awb() {
     else
         rm "$preferenceDir"switchminiawb
     fi
-    printf '\e[8;43;73t'
-    printf '\e[3;450;0t'
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
 }
 
 do_howto() {
@@ -777,8 +777,8 @@ do_select_output_folder() {
 }
 
 do_set_thread_count() {
-    printf '\e[8;16;53t'
-    printf '\e[3;410;100t'
+    # printf '\e[8;16;53t'
+    # printf '\e[3;410;100t'
     clear
     echo $(tput bold)"set thread amount:$(tput sgr0)($(tput bold)e.g$(tput sgr0) 2 and hit enter)"
     read input_variable
@@ -789,8 +789,8 @@ do_set_thread_count() {
     echo "Threads" $input_variable >"$preferenceDir"THREADS
     THREADS=$(cat "$preferenceDir"THREADS)
     sleep 1
-    printf '\e[8;43;73t'
-    printf '\e[3;450;0t'
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
 }
 
 do_quit() {
@@ -800,8 +800,8 @@ do_quit() {
 
 do_run() {
     #rm "$preferenceDir"switchmini/ignition
-    printf '\e[8;7;20t'
-    printf '\e[3;750;0t'
+    # printf '\e[8;7;20t'
+    # printf '\e[3;750;0t'
     bold="$(tput bold)"
     normal="$(tput sgr0)"
     red="$(tput setaf 1)"
