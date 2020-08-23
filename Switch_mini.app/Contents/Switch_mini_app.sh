@@ -75,13 +75,13 @@ else
 fi
 
 #set your input folder
-in="$(cat "$preferenceDir"switchmini/path_1)"/
+in="$(cat "$preferenceDir"switchmini/path_1)"
 
 #set your output folder
 if ! [ x"$(cat "$preferenceDir""output")" = x ]; then
-    out=$(cat "$preferenceDir""output")/
+    out=$(cat "$preferenceDir""output")
 else
-    out=$(cat "$preferenceDir"switchmini/"path_1")/
+    out=$(cat "$preferenceDir"switchmini/"path_1")
 fi
 
 #erase mlv_dump settings
@@ -734,7 +734,7 @@ do_reset_switches() {
     rm "$preferenceDir"output 1>/dev/null 2>&1 &
     #set your output folder
     if [ x"$out" = x ]; then
-        out=$(cat "$preferenceDir"switchmini/"path_1")/$(tput sgr0)
+        out=$(cat "$preferenceDir"switchmini/"path_1")$(tput sgr0)
     fi
     rm "$preferenceDir"switchmini/O_trap 1>/dev/null 2>&1 &
     rm "$preferenceDir"mlv_dump_settings
