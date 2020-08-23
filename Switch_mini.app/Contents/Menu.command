@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #GNU public license
 
 #This program is free software; you can redistribute it and/or
@@ -21,7 +23,7 @@ export PATH="$(cat /tmp/switchmini/"path_2")":$PATH
 
 if ls /tmp/switchmini/ignition
 then
-#!/bin/bash
+
 #new output folder
 if ! ls /tmp/switchmini/O_trap
 then
