@@ -149,7 +149,7 @@ n=1
 
 while [ $counter -lt $THR ]; do
     # bash -c "$path_2/mlv_dump.sh ${alpha:$num:$n} & pid1=$!"
-    mlv_dump_thread ${alpha:$num:$n} &
+    mlv_dump_thread ${alpha:$num:$n} & pid$num=$!
 
     #increment both numbers and alphabet
     num=$(($num + 1))
