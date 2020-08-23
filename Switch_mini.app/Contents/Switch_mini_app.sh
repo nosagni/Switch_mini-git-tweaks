@@ -17,37 +17,31 @@
 # 51 Franklin Street, Fifth Floor,
 # Boston, MA  02110-1301, USA.
 
-#keep this for later #set first_out.app path
-#if [ -d "$(cat /tmp/folder_paths.txt | head -1)" ]
-#then
-#echo "$(cat /tmp/folder_paths.txt | head -1)" > /tmp/path_1b
-#fi
+preferenceDir=~/Library/Preferences/Dannephoto/
 path_2="$(pwd)/"
-cd "$(cat /tmp/switchmini/path_1)"
+cd "$(cat "$preferenceDir"switchmini/path_1)"
 
-#find "$path_2"Menu.command -exec xattr -d -r com.apple.quarantine {} \;
-#find "$path_2"Switch_mini_drag_drop.command -exec xattr -d -r com.apple.quarantine {} \;
 export PATH="$path_2":$PATH
 
-rm "$(cat /tmp/switchmini/path_1)"/LOG.txt
-exec &> >(tee -a "$(cat /tmp/switchmini/path_1)"/LOG.txt >&2)
+rm "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt
+exec &> >(tee -a "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt >&2)
 
-mkdir -p /tmp/switchmini/
+mkdir -p "$preferenceDir"switchmini/
 #Call menu selector
-echo >/tmp/switchmini/ignition
-echo "$path_2" >/tmp/switchmini/path_2
+echo >"$preferenceDir"switchmini/ignition
+echo "$path_2" >"$preferenceDir"switchmini/path_2
 open "$path_2"Menu.command &
 sleep 1
-while ls /tmp/switchmini/ignition 2>/dev/null; do
+while ls "$preferenceDir"switchmini/ignition 2>/dev/null; do
     sleep 1
 done
-if [ -f /tmp/switchmini/ignition_exit ]; then
+if [ -f "$preferenceDir"switchmini/ignition_exit ]; then
     exit 0
 fi
 #check for new output folder
-if [ -f /tmp/output ]; then
-    mkdir -p "$(cat /tmp/output)"
-    O=$(cat /tmp/"output")/
+if [ -f "$preferenceDir"output ]; then
+    mkdir -p "$(cat "$preferenceDir"output)"
+    O=$(cat "$preferenceDir""output")/
 fi
 
 ###############################################################
@@ -56,23 +50,23 @@ fi
 #Will take white space
 OLDIFS=$IFS
 IFS=$'\n'
-ls *.MLV *.mlv >/tmp/switchmini/MLVFILES
+ls *.MLV *.mlv >"$preferenceDir"switchmini/MLVFILES
 #reset IFS
 IFS=$OLDIFS
 #specify THREADS if
-if [ -f /tmp/THREADS ]; then
-    THR=$(cat /tmp/THREADS | tr -d Threads)
+if [ -f "$preferenceDir"THREADS ]; then
+    THR=$(cat "$preferenceDir"THREADS | tr -d Threads)
 else
     half=$(echo $(sysctl -n hw.physicalcpu) / 2 | bc -l | cut -d "." -f1)
-    echo "Threads" $(echo $(sysctl -n hw.physicalcpu) + $half | bc -l) >/tmp/THREADS
+    echo "Threads" $(echo $(sysctl -n hw.physicalcpu) + $half | bc -l) >"$preferenceDir"THREADS
 fi
 #safety check(fools gold)
 if (($THR > 32)); then
     THR=$(echo 32)
 fi
 #split into max 32 chunks
-split -l $(($(wc -l </tmp/switchmini/MLVFILES) / $THR + 1)) /tmp/switchmini/MLVFILES /tmp/switchmini/MLVFILES
-rm /tmp/switchmini/MLVFILES
+split -l $(($(wc -l <"$preferenceDir"switchmini/MLVFILES) / $THR + 1)) "$preferenceDir"switchmini/MLVFILES "$preferenceDir"switchmini/MLVFILES
+rm "$preferenceDir"switchmini/MLVFILES
 
 #remove any old fpm files
 rm *.fpm
@@ -81,17 +75,17 @@ rm *.fpm
 
 mlv_dump_thread() {
     #mlv folder path
-    path_1="$(cat /tmp/switchmini/path_1)"/
+    path_1="$(cat "$preferenceDir"switchmini/path_1)"/
     #output location
-    if [ -f /tmp/output ]; then
-        outputlocation="$(cat /tmp/output)"
+    if [ -f "$preferenceDir"output ]; then
+        outputlocation="$(cat "$preferenceDir"output)"
     fi
 
     # argument $1 is a letter combination
 
     #Processing MLV files into folders with dng files
-    while ! [ x"$(cat /tmp/switchmini/MLVFILESa$1)" = x ]; do
-        FILE1=$(cat /tmp/switchmini/"MLVFILESa$1" | head -1)
+    while ! [ x"$(cat "$preferenceDir"switchmini/MLVFILESa$1)" = x ]; do
+        FILE1=$(cat "$preferenceDir"switchmini/"MLVFILESa$1" | head -1)
         date=$(mlv_dump -v "$FILE1" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2; exit}')
         date_01=$(echo "$date" | head -c2)
         date_02=$(echo "$date" | cut -c4-5)
@@ -103,7 +97,7 @@ mlv_dump_thread() {
 
         #changed output location?
         if [ -d "$outputlocation" ]; then
-            mkdir -p "$(cat /tmp/output)"
+            mkdir -p "$(cat "$preferenceDir"output)"
             output="$O${BASE}_1_$date"/
         fi
 
@@ -119,7 +113,7 @@ mlv_dump_thread() {
         fi
 
         #mlv_dump settings
-        mlv="$(cat /tmp/"mlv_dump_settings" | perl -p -e 's/^[ \t]*//')"
+        mlv="$(cat "$preferenceDir""mlv_dump_settings" | perl -p -e 's/^[ \t]*//')"
 
         #extract dng frames
         if ! [ -d "$outputlocation" ]; then
@@ -130,7 +124,7 @@ mlv_dump_thread() {
         fi
 
         #check if cam was set to auto white balance. Non dualiso
-        if [ "$(mlv_dump -v "$(cat /tmp/switchmini/path_1)"/"$FILE1" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ] || [ -f /tmp/switchminiawb ]; then
+        if [ "$(mlv_dump -v "$(cat "$preferenceDir"switchmini/path_1)"/"$FILE1" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ] || [ -f "$preferenceDir"switchminiawb ]; then
             cd "$O""${BASE}_1_$date"
             . "$path_2"awb.command
             wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
@@ -138,7 +132,7 @@ mlv_dump_thread() {
             cd ..
         fi
 
-        echo "$(tail -n +2 /tmp/switchmini/MLVFILESa$1)" >/tmp/switchmini/MLVFILESa$1
+        echo "$(tail -n +2 "$preferenceDir"switchmini/MLVFILESa$1)" >"$preferenceDir"switchmini/MLVFILESa$1
     done
 }
 
@@ -149,7 +143,8 @@ n=1
 
 while [ $counter -lt $THR ]; do
     # bash -c "$path_2/mlv_dump.sh ${alpha:$num:$n} & pid1=$!"
-    mlv_dump_thread ${alpha:$num:$n} & pid$num=$!
+    mlv_dump_thread ${alpha:$num:$n} &
+    pid$num=$!
 
     #increment both numbers and alphabet
     num=$(($num + 1))
