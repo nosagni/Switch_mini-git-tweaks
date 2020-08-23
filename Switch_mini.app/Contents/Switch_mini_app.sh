@@ -36,7 +36,7 @@ export PATH="$path_2":$PATH
 export PATH="$(cat "$preferenceDir"switchmini/"path_2")":$PATH
 
 rm "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt
-# exec &> >(tee -a "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt >&2)
+exec &> >(tee -a "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt >&2)
 
 mkdir -p "$preferenceDir"switchmini/
 # #Call menu selector
