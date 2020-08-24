@@ -108,9 +108,6 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-# Let's start normal
-"$(tput sgr0)"
-
 nocs=
 cs2=
 cs3=
@@ -132,6 +129,7 @@ btp=
 fdepth=
 fcpm=
 bpm=
+xref=
 
 if grep ' \-p' "$preferenceDir"mlv_dump_settings; then
     p=$(echo "$bold""$green"added!"$normal")
@@ -198,6 +196,9 @@ if grep ' \--fpi' "$preferenceDir"mlv_dump_settings; then
 fi
 if grep ' \--bpi' "$preferenceDir"mlv_dump_settings; then
     bpm=$(grep -Eo '.{0,0}bpi.{0,2}' "$preferenceDir"mlv_dump_settings)
+fi
+if grep ' \--skip-xref' "$preferenceDir"mlv_dump_settings; then
+    xref=$(echo "$bold""$green"added!"$normal")
 fi
 if [ -f "$preferenceDir"switchminiawb ]; then
     awb=$(echo "$bold""$green"added!"$normal")
@@ -471,6 +472,7 @@ Removed"$(tput sgr0)
         fdepth=
         fcpm=
         bpm=
+        xref=
         printf "%s\n" " -p" >"$preferenceDir"mlv_dump_settings
         p=$(echo "$bold""$green"added!"$normal")
     fi
@@ -640,6 +642,22 @@ bad pixel method reset"$(tput sgr0)
     # printf '\e[3;450;0t'
 }
 
+do_xref() {
+open $preferenceDir
+    p=
+    if grep ' \--skip-xref' "$preferenceDir"mlv_dump_settings; then
+        find "$preferenceDir"mlv_dump_settings | xargs perl -pi -e 's/ --skip-xref//g'
+        xref=
+        echo $(tput bold)"
+
+$(tput sgr0)$(tput bold)$(tput setaf 1)
+Removed"$(tput sgr0)
+    else
+        printf "%s\n" " --skip-xref" >>"$preferenceDir"mlv_dump_settings
+        xref=$(echo "$bold""$green"added!"$normal")
+    fi
+}
+
 do_awb() {
     awb=
     if ! [ -f "$preferenceDir"switchminiawb ]; then
@@ -724,6 +742,7 @@ do_reset_switches() {
     out=
     THREADS=
     awb=
+    xref=
     rm "$preferenceDir"switchminiawb
     rm "$preferenceDir"THREADS
     half=$(echo $(sysctl -n hw.physicalcpu) / 2 | bc -l | cut -d "." -f1)
@@ -854,7 +873,8 @@ while true; do
     $(tput bold)(18) write DNG to 16 bit$(tput sgr0) $fdepth
     $(tput bold)(19) focus pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=1),default=0$(tput bold)$(tput setaf 4) $fcpm$(tput sgr0)
     $(tput bold)(20) bad pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=1),default=1$(tput bold)$(tput setaf 4) $bpm$(tput sgr0)
-    $(tput bold)(21) apply auto white balance to your dng files $(tput sgr0) $awb$(tput sgr0)
+    $(tput bold)(21) skip loading .IDX (XREF). Use if audio is problematic$(tput sgr0) $xref$(tput sgr0)
+    $(tput bold)(22) apply auto white balance to your dng files $(tput sgr0) $awb$(tput sgr0)
 
     $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
     $(tput bold)$(tput setaf 1)(R)  reset switches$(tput sgr0)
@@ -891,7 +911,8 @@ EOF
     "18") do_fdepth ;;
     "19") do_fcpm ;;
     "20") do_bpm ;;
-    "21") do_awb ;;
+    "21") do_xref ;;
+    "22") do_awb ;;
 
     "h") do_howto ;;
     "R") do_reset_switches ;;
@@ -1028,7 +1049,7 @@ printf '\e[3;450;0t'
 clear
 echo "Processing now. Close Terminal window to abort."
 #wait for jobs to end
-wait
+    wait < <(jobs -p)
 #rm any created fpm files
 rm *.fpm
 
