@@ -1,3 +1,5 @@
+#!/bin/bash
+
 #GNU public license
 
 #This program is free software; you can redistribute it and/or
@@ -16,8 +18,7 @@
  # 51 Franklin Street, Fifth Floor,
  # Boston, MA  02110-1301, USA.
 
-
-preferenceDir="/tmp/"
+preferenceDir=~/Library/Preferences/Dannephoto/
 
 export PATH="$(cat "$preferenceDir"switchmini/"path_2")":$PATH
 
@@ -82,7 +83,7 @@ magenta="$(tput setaf 5)"
 cyan="$(tput setaf 6)"
 white="$(tput setaf 7)"
 
-#let´s start normal
+#letÂ´s start normal
 "$(tput sgr0)"
 
 nocs= ; cs2= ; cs3= ; cs5= ; fixcp2= ; fixfp= ; fixcp= ; nostripes= ; dafr= ; bll= ; wll= ; p= ; ato= ; w= ; fstripes= ; fpn= ; dfl= ; btp= ; fdepth= ; fcpm= ; bpm= ; 
@@ -763,23 +764,40 @@ rm "$preferenceDir"mlv_dump_settings
 ;;
 
     "O")
-rm "$preferenceDir"switchmini/OUT_path 1> /dev/null 2>&1 &
-rm "$preferenceDir"switchmini/O_trap 1> /dev/null 2>&1 &
-if ls "$preferenceDir"output
-then
-rm "$preferenceDir"output
-out=
-else
-echo > "$preferenceDir"switchmini/OUT_path
-open "$(cat "$preferenceDir"content)"new_output.app
-clear
-echo "
+    
+    # When the output path is stored, then clear it (unset output path) and return to menu.
+    # If there's no output path stored, ask the user to choose a new output path.
+    # Not sure if this is how it's supposed to work though.
+    # At least it's a good example of a folder chooser with default location using Applescript,
+    # no need for another Automator App inside.
+    
+    rm -f "$preferenceDir"switchmini/O_trap
 
+    # Check if output path preference file exists
+    if [ -f "$preferenceDir"output ]; then
+        rm "$preferenceDir"output
+        out=
+    else
 
-A selection window will now open"
-sleep 2"$preferenceDir"THREADS 
-osascript -e 'tell application "Terminal" to close first window' & exit
-fi
+        # Check if directory $in or $out exist and can be used as default location, fallback to Desktop otherwise
+        if [ -d "$out" ]; then
+            newOut=$out
+        elif [ -d "$in" ]; then
+            newOut=$in
+        else
+            newOut="~/Desktop/"
+        fi
+
+        applescriptCode="set T to POSIX path of (choose folder with prompt \"Please select an output folder:\" default location POSIX file \"$newOut\")"
+        newOut=$(osascript -e "$applescriptCode");
+
+        # Check if newOut is not empty (user cancelled the dialog)
+        if [ -n "$newOut" ]; then
+            echo "$newOut" > "$preferenceDir"output
+            out=$newOut
+        fi
+
+    fi
 ;;
 
     "TH")
