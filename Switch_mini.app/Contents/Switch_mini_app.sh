@@ -1023,6 +1023,8 @@ while [ $counter -lt $THR ]; do
     counter=$(($counter + 1))
 done
 
+printf '\e[8;5;50t'
+printf '\e[3;450;0t'
 clear
 echo "Processing now. Close Terminal window to abort."
 #wait for jobs to end
