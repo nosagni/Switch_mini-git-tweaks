@@ -35,8 +35,8 @@ cd "$(cat "$preferenceDir"switchmini/path_1)"
 export PATH="$path_2":$PATH
 export PATH="$(cat "$preferenceDir"switchmini/"path_2")":$PATH
 
-rm "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt
-exec &> >(tee -a "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt >&2)
+rm "$preferenceDir"switchmini/LOG.txt
+exec &> >(tee -a "$preferenceDir"switchmini/LOG.txt >&2)
 
 mkdir -p "$preferenceDir"switchmini/
 # #Call menu selector
@@ -990,10 +990,10 @@ mlv_dump_thread() {
 
         #extract dng frames
         if ! [ -d "$outputlocation" ]; then
-            mlv_dump --dng $mlv -o "${BASE}_1_$date"/"${BASE}_1_$date"_ "$FILE1"
+            mlv_dump --dng $mlv -o "${BASE}_1_$date"/"${BASE}_1_$date"_ "$FILE1" >> "$preferenceDir"switchmini/LOG.txt 2>&1 
         else
             #enter an alternate location
-            mlv_dump --dng $mlv -o "$output""${BASE}_1_$date"_ "$path_1""$FILE1"
+            mlv_dump --dng $mlv -o "$output""${BASE}_1_$date"_ "$path_1""$FILE1" >> "$preferenceDir"switchmini/LOG.txt 2>&1 
         fi
 
         #check if cam was set to auto white balance. Non dualiso
@@ -1023,6 +1023,8 @@ while [ $counter -lt $THR ]; do
     counter=$(($counter + 1))
 done
 
+clear
+echo "Processing now. Close Terminal window to abort."
 #wait for jobs to end
 wait
 #rm any created fpm files
