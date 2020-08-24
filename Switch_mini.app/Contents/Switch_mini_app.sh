@@ -33,10 +33,8 @@ path_2="$(pwd)/"
 cd "$(cat "$preferenceDir"switchmini/path_1)"
 
 export PATH="$path_2":$PATH
-export PATH="$(cat "$preferenceDir"switchmini/"path_2")":$PATH
-
-rm "$preferenceDir"switchmini/LOG.txt
-exec &> >(tee -a "$preferenceDir"switchmini/LOG.txt >&2)
+#this will not happen?
+#export PATH="$(cat "$preferenceDir"switchmini/"path_2")":$PATH
 
 mkdir -p "$preferenceDir"switchmini/
 # #Call menu selector
@@ -78,7 +76,8 @@ fi
 in="$(cat "$preferenceDir"switchmini/path_1)"
 
 #set your output folder
-if ! [ x"$(cat "$preferenceDir""output")" = x ]; then
+if [ -f "$preferenceDir""output" ]
+then
     out=$(cat "$preferenceDir""output")
 else
     out=$(cat "$preferenceDir"switchmini/"path_1")
@@ -1037,7 +1036,7 @@ n=1
 
 while [ $counter -lt $THR ]; do
     # bash -c "$path_2/mlv_dump.sh ${alpha:$num:$n} & pid1=$!"
-    mlv_dump_thread ${alpha:$num:$n} >> "$preferenceDir"switchmini/LOG.txt 2>&1 &
+    mlv_dump_thread ${alpha:$num:$n} >> "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt 2>&1 &
 
     #increment both numbers and alphabet
     num=$(($num + 1))
@@ -1055,6 +1054,5 @@ rm *.fpm
 
 clear
 echo "DONE!"
-
 #Thanks to Bouncyball(mlv_dump_for_steroids, A1ex,g3gg0(raw2dng, mlv_dump), Dave Coffin(dcraw) Fabrice Bellard(FFmpeg) Phil Harvey(Exiftool) Andreas Huggel(exiv2) BWF MetaEdit(FADGI) #dfort(Focus pixel script).
 #Copyright Danne
