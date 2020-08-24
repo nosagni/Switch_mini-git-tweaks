@@ -814,8 +814,8 @@ do_set_thread_count() {
 
 do_quit() {
     echo "Bye bye!"
-    exit
-}
+    osascript -e 'tell application "Terminal" to close first window' & exit
+ }
 
 do_run() {
     #rm "$preferenceDir"switchmini/ignition
