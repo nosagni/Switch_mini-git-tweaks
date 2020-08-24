@@ -990,10 +990,10 @@ mlv_dump_thread() {
 
         #extract dng frames
         if ! [ -d "$outputlocation" ]; then
-            mlv_dump --dng $mlv -o "${BASE}_1_$date"/"${BASE}_1_$date"_ "$FILE1" >> "$preferenceDir"switchmini/LOG.txt 2>&1 
+            mlv_dump --dng $mlv -o "${BASE}_1_$date"/"${BASE}_1_$date"_ "$FILE1"
         else
             #enter an alternate location
-            mlv_dump --dng $mlv -o "$output""${BASE}_1_$date"_ "$path_1""$FILE1" >> "$preferenceDir"switchmini/LOG.txt 2>&1 
+            mlv_dump --dng $mlv -o "$output""${BASE}_1_$date"_ "$path_1""$FILE1"
         fi
 
         #check if cam was set to auto white balance. Non dualiso
@@ -1016,7 +1016,7 @@ n=1
 
 while [ $counter -lt $THR ]; do
     # bash -c "$path_2/mlv_dump.sh ${alpha:$num:$n} & pid1=$!"
-    mlv_dump_thread ${alpha:$num:$n} &
+    mlv_dump_thread ${alpha:$num:$n} >> "$preferenceDir"switchmini/LOG.txt 2>&1 &
 
     #increment both numbers and alphabet
     num=$(($num + 1))
