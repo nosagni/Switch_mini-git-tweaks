@@ -1047,6 +1047,7 @@ printf '\e[8;5;50t'
 printf '\e[3;450;0t'
 clear
 echo "Processing now. Close Terminal window to abort."
+while grep -q 'MLV\|mlv'<<<$(cat "$preferenceDir"switchmini/MLVFILES*) ;do for s in $(cat "$preferenceDir"switchmini/MLVFILES* | grep 'MLV\|mlv' | wc -l); do printf "\r$s MLV files to process";sleep 1;done;done &
 #wait for jobs to end
     wait < <(jobs -p)
 #rm any created fpm files
