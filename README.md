@@ -3,7 +3,7 @@ Forked mlv_dump functions into a smaller more reliable, faster app.
 
 **Switch mini**
 
-![Screen_Shot_2017-07-26_at_10.05.56.png](https://i.postimg.cc/CK4K6Jf9/1.jpg)
+![Screen_Shot_2017-07-26_at_10.05.56.png](https://postimg.cc/Jt2LkpSS)
 
 ![Screen_Shot_2017-07-26_at_10.05.56.png](https://i.postimg.cc/nLxzkNMv/2.jpg)
 
