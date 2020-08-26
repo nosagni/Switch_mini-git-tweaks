@@ -1004,7 +1004,59 @@ mlv_dump_thread() {
                 ln -s "$path_2"maps/80000331_"$wi"x"$he".fpm 80000331_"$wi"x"$he".fpm
             fi
         fi
-
+        
+        
+    if grep 'EOS M' <<<$(mlv_dump -v "$FILE1" | awk '/Camera Name/ { print $4,$5; exit}'); then
+            he=$(mlv_dump -v "$FILE1" | awk '/height/ { print $2; exit }')
+            wi=$(mlv_dump -v "$FILE1" | awk '/width/ { print $2; exit }')
+            if ! [ -f "$path_2"maps/80000331_"$wi"x"$he".fpm ]; then
+                ln -s "$path_2"maps/80000331_"$wi"x* 80000331_"$wi"x"$he".fpm
+            else
+                ln -s "$path_2"maps/80000331_"$wi"x"$he".fpm 80000331_"$wi"x"$he".fpm
+            fi
+            
+    else
+        #check if filmed crop_rec 700D,100D,650D TODO: camera identity number: 80000355? 70D?
+        if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' <<<$(mlv_dump -v "$FILE1" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}'); then
+            if [ -f "$path_2"maps/pixmaparchive.zip ]; then
+                unzip -qq -o "$path_2"maps/pixmaparchive.zip -d "$path_2"maps/
+                rm -r "$path_2"maps/pixmaparchive
+                rm "$path_2"maps/pixmaparchive.zip
+            fi
+            
+            if grep '700D\|T5i\|X7i' <<<$(mlv_dump -v "$FILE1" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}'); then
+                he=$(mlv_dump -v "$FILE1" | awk '/height/ { print $2; exit }')
+                wi=$(mlv_dump -v "$FILE1" | awk '/width/ { print $2; exit }')
+                if ! [ -f "$path_2"maps/80000326_"$wi"x"$he".fpm ]; then
+                    ln -s "$path_2"maps/80000326_"$wi"x* 80000326_"$wi"x"$he".fpm
+                else
+                    ln -s "$path_2"maps/80000326_"$wi"x"$he".fpm 80000326_"$wi"x"$he".fpm
+                fi
+            fi
+                
+            if grep '100D\|SL1\|X7' <<<$(mlv_dump -v "$FILE1" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}'); then
+                he=$(mlv_dump -v "$FILE1" | awk '/height/ { print $2; exit }')
+                wi=$(mlv_dump -v "$FILE1" | awk '/width/ { print $2; exit }')
+                if ! [ -f "$path_2"maps/80000346_"$wi"x"$he".fpm ]; then
+                    ln -s "$path_2"maps/80000346_"$wi"x* 80000346_"$wi"x"$he".fpm
+                else
+                    ln -s "$path_2"maps/80000346_"$wi"x"$he".fpm 80000346_"$wi"x"$he".fpm
+                fi
+            fi
+             
+            if grep '650D\|T4i\|X6i' <<<$(mlv_dump -v "$FILE1" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}'); then
+                he=$(mlv_dump -v "$FILE1" | awk '/height/ { print $2; exit }')
+                wi=$(mlv_dump -v "$FILE1" | awk '/width/ { print $2; exit }')
+                if ! [ -f "$path_2"maps/80000301_"$wi"x"$he".fpm ]; then
+                    ln -s "$path_2"maps/80000301_"$wi"x* 80000301_"$wi"x"$he".fpm
+                else
+                    ln -s "$path_2"maps/80000301_"$wi"x"$he".fpm 80000301_"$wi"x"$he".fpm
+                fi
+            fi
+            
+        fi
+    fi
+        
         #mlv_dump settings
         mlv="$(cat "$preferenceDir""mlv_dump_settings" | perl -p -e 's/^[ \t]*//')"
 
