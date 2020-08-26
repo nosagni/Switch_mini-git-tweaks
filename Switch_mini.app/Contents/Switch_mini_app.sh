@@ -858,7 +858,7 @@ while true; do
     $(tput bold)(04) do not fix focus pixels$(tput sgr0)  $fixfp
     $(tput bold)(05) do not fix cold pixels$(tput sgr0)  $fixcp 
     $(tput bold)(06) fix non-static$(tput sgr0)(moving) $(tput bold)cold pixels$(tput sgr0)(slow) $fixcp2
-    $(tput bold)(07) disable vertical stripes in highlights  $nostripes
+    $(tput bold)(07) turn off vertical stripes correction $nostripes
     $(tput bold)(08) force vertical stripes$(tput sgr0)(slow, every frame)  $fstripes
     $(tput bold)(09) set black level  $(tput setaf 4)$bll$(tput sgr0)
     $(tput bold)(10) set white level  $(tput setaf 4)$wll$(tput sgr0)
