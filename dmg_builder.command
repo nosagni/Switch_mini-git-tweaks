@@ -2,6 +2,10 @@
 workingDir=`dirname "$0"`
 cd "${workingDir}"
 
+normal="$(tput sgr0)"
+black="$(tput setaf 0)"
+red="$(tput setaf 1)"
+
 #changes size of terminal window
 #tip from here http://apple.stackexchange.com/questions/33736/can-a-terminal-window-be-resized-with-a-terminal-command
 #Will move terminal window to the left corner
@@ -38,9 +42,18 @@ hdiutil detach ${device}
 hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "Switch_mini"
 rm -f pack.temp.dmg
 rm -R "${source}"
+
+#bitbucket uploading api
+repo="$(cat .git/config | grep 'url' | rev | cut -d "/" -f1 | rev | cut -d "." -f1)"
+usr="$(cat .git/config | grep 'url' | rev | cut -d "/" -f2 | rev | cut -d "." -f1)"
+
+clear
+   echo $(tput bold)"Would you like to upload your dmg to "$repo"/downloads?:$(tput sgr0) 
+"$red"Y/N"$normal" then push enter"
+   read pick
+if [ "$pick" = y ] || [ "$pick" = Y ];
+then
+curl -u "$usr" -X POST https://api.bitbucket.org/2.0/repositories/"$usr"/"$repo"/downloads -F files=@Switch_mini.dmg
+else
 osascript -e 'tell application "Terminal" to close first window' & exit
-   
-
-
-
-
+fi
