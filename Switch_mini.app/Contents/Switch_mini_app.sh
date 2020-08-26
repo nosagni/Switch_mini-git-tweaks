@@ -1016,7 +1016,7 @@ mlv_dump_thread() {
             fi
             
     else
-        #check if filmed crop_rec 700D,100D,650D TODO: camera identity number: 80000355? 70D?
+        #check if filmed with 700D,100D,650D TODO: camera identity number: 80000355? 70D?
         if grep '700D\|T5i\|X7i\|100D\|SL1\|X7\|650D\|T4i\|X6i' <<<$(mlv_dump -v "$FILE1" | awk '/Camera Name/ { print $4,$5,$6,$7; exit}'); then
             if [ -f "$path_2"maps/pixmaparchive.zip ]; then
                 unzip -qq -o "$path_2"maps/pixmaparchive.zip -d "$path_2"maps/
