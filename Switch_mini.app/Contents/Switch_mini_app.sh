@@ -931,6 +931,11 @@ echo "START RUNNING"
 
 ######### END MENU CODE #########
 
+# Keep system awake until script finishes
+# Run caffeinate in background, in a subshell which returns immediately,
+# this way caffeinate won't lock the wait command (script would otherwise never end because caffeinate keeps running)
+( caffeinate & ) 
+
 #check for new output folder
 if [ -f "$preferenceDir"output ]; then
     mkdir -p "$(cat "$preferenceDir"output)"
@@ -1096,7 +1101,6 @@ while [ $counter -lt $THR ]; do
 done
 
 printf '\e[8;5;50t'
-printf '\e[3;450;0t'
 clear
 echo "Processing now. Close Terminal window to abort."
 while grep -q 'MLV\|mlv'<<<$(cat "$preferenceDir"switchmini/MLVFILES*) ;do for s in $(cat "$preferenceDir"switchmini/MLVFILES* | grep 'MLV\|mlv' | wc -l); do printf "\r$s MLV files to process";sleep 1;done;done &
