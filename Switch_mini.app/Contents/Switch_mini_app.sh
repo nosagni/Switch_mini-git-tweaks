@@ -931,6 +931,11 @@ echo "START RUNNING"
 
 ######### END MENU CODE #########
 
+# Keep system awake until script finishes
+# Run caffeinate in background, in a subshell which returns immediately,
+# this way caffeinate won't lock the wait command (script would otherwise never end because caffeinate keeps running)
+( caffeinate & ) 
+
 #check for new output folder
 if [ -f "$preferenceDir"output ]; then
     mkdir -p "$(cat "$preferenceDir"output)"
