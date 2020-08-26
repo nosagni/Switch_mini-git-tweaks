@@ -54,6 +54,7 @@ clear
 if [ "$pick" = y ] || [ "$pick" = Y ];
 then
 curl -u "$usr" -X POST https://api.bitbucket.org/2.0/repositories/"$usr"/"$repo"/downloads -F files=@Switch_mini.dmg
+rm Switch_mini.dmg
 else
 osascript -e 'tell application "Terminal" to close first window' & exit
 fi
