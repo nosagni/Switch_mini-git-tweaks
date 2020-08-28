@@ -48,7 +48,7 @@ repo="$(cat .git/config | grep 'url' | rev | cut -d "/" -f1 | rev | cut -d "." -
 usr="$(cat .git/config | grep 'url' | rev | cut -d "/" -f2 | rev | cut -d "." -f1)"
 
 clear
-   echo $(tput bold)"Would you like to upload your dmg to "$repo"/downloads?:$(tput sgr0) 
+   echo $(tput bold)"Would you like to upload your dmg to "$repo"/downloads?$(tput sgr0) 
 "$red"Y/N"$normal" then push enter"
    read pick
 if [ "$pick" = y ] || [ "$pick" = Y ];
