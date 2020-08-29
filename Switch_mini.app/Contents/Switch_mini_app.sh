@@ -714,6 +714,8 @@ any problems at https://www.magiclantern.fm/forum/"
     echo "Good luck!"
     sleep 2
     echo ""
+    echo $(tput bold)"hit any key to go back:"$(tput sgr0)
+    read -n1 input_variable
 }
 
 do_reset_switches() {
