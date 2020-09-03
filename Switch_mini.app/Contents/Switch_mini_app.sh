@@ -1057,7 +1057,7 @@ mlv_dump_thread() {
         
         #check if cam was set to auto white balance. Non dualiso
         if [ "$(mlv_dump -v "$(cat "$preferenceDir"switchmini/path_1)"/"$FILE1" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ] || [ -f "$preferenceDir"switchminiawb ]; then
-            cd "$O"/"${BASE}_1_$date"
+            cd "$O""${BASE}_1_$date"
             . "$path_2"awb.command
             wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
             find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
