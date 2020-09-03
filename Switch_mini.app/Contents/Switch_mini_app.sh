@@ -33,37 +33,8 @@ path_2="$(pwd)/"
 cd "$(cat "$preferenceDir"switchmini/path_1)"
 
 export PATH="$path_2":$PATH
-#this will not happen?
-#export PATH="$(cat "$preferenceDir"switchmini/"path_2")":$PATH
 
 mkdir -p "$preferenceDir"switchmini/
-# #Call menu selector
-# echo >"$preferenceDir"switchmini/ignition
-# echo "$path_2" >"$preferenceDir"switchmini/path_2
-# open "$path_2"Menu.command &
-# sleep 1
-# while ls "$preferenceDir"switchmini/ignition 2>/dev/null; do
-#     sleep 1
-# done
-# if [ -f "$preferenceDir"switchmini/ignition_exit ]; then
-#     exit 0
-# fi
-
-######### START MENU CODE #########
-
-# I didn't understand the below part, with ignition and O_trap.
-
-# if ls "$preferenceDir"switchmini/ignition; then
-#     #new output folder
-#     if ! ls "$preferenceDir"switchmini/O_trap; then
-#         if [ -f "$preferenceDir"output ]; then
-#             osascript -e 'display notification "Your output folder has changed" with title "Switch mini"'
-#         fi
-#     fi
-
-#     THREADS=
-# fi
-
 if [ -f "$preferenceDir"THREADS ]; then
     THREADS=$(cat "$preferenceDir"THREADS)
 else
@@ -78,6 +49,7 @@ in="$(cat "$preferenceDir"switchmini/path_1)"
 #set your output folder
 if [ -f "$preferenceDir""output" ]
 then
+    osascript -e 'display notification "Your output folder changed" with title "Switch mini"'
     out=$(cat "$preferenceDir""output")
 else
     out=$(cat "$preferenceDir"switchmini/"path_1")
@@ -213,7 +185,7 @@ do_nocs() {
         nocs=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --no-cs" >>"$preferenceDir"mlv_dump_settings
@@ -234,7 +206,7 @@ do_cs2() {
         cs2=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --cs2x2" >>"$preferenceDir"mlv_dump_settings
@@ -255,7 +227,7 @@ do_cs3() {
         cs3=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --cs3x3" >>"$preferenceDir"mlv_dump_settings
@@ -276,7 +248,7 @@ do_cs5() {
         cs5=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --cs5x5" >>"$preferenceDir"mlv_dump_settings
@@ -297,7 +269,7 @@ do_fixfp() {
         fixfp=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --no-fixfp" >>"$preferenceDir"mlv_dump_settings
@@ -316,7 +288,7 @@ do_fixcp() {
         fixcp=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --no-fixcp" >>"$preferenceDir"mlv_dump_settings
@@ -335,7 +307,7 @@ do_fixcp2() {
         fixcp2=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         find "$preferenceDir"mlv_dump_settings | xargs perl -pi -e 's/ --no-fixcp//g'
@@ -353,7 +325,7 @@ do_nostripes() {
         nostripes=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --no-stripes" >>"$preferenceDir"mlv_dump_settings
@@ -367,7 +339,7 @@ do_fstripes() {
         fstripes=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --force-stripes" >>"$preferenceDir"mlv_dump_settings
@@ -382,7 +354,7 @@ do_bll() {
         clear
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 black level setting reset"$(tput sgr0)
         sleep 1
         bll=
@@ -408,7 +380,7 @@ do_wll() {
         clear
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 white level setting reset"$(tput sgr0)
         sleep 1
         wll=
@@ -434,7 +406,7 @@ do_compress() {
         c=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " -c" >>"$preferenceDir"mlv_dump_settings
@@ -448,7 +420,7 @@ do_pass_through() {
         p=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         nocs=
@@ -484,7 +456,7 @@ do_no_audio() {
         w=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --no-audio" >>"$preferenceDir"mlv_dump_settings
@@ -499,7 +471,7 @@ do_ato() {
         ato=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --relaxed" >>"$preferenceDir"mlv_dump_settings
@@ -514,7 +486,7 @@ do_fpn() {
         fpn=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --fpn" >>"$preferenceDir"mlv_dump_settings
@@ -529,7 +501,7 @@ do_dfl() {
         clear
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 deflicker level setting reset"$(tput sgr0)
         sleep 1
         dfl=
@@ -555,7 +527,7 @@ do_btp() {
         clear
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 bitdepth reset"$(tput sgr0)
         sleep 1
         btp=
@@ -581,7 +553,7 @@ do_fdepth() {
         fdepth=
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 Removed"$(tput sgr0)
     else
         printf "%s\n" " --no-bitpack" >>"$preferenceDir"mlv_dump_settings
@@ -596,7 +568,7 @@ do_fcpm() {
         clear
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 focus pixel method reset"$(tput sgr0)
         sleep 1
         fcpm=
@@ -622,7 +594,7 @@ do_bpm() {
         clear
         echo $(tput bold)"
 
-$(tput sgr0)$(tput bold)$(tput setaf 1) 
+$(tput sgr0)$(tput bold)$(tput setaf 1)
 bad pixel method reset"$(tput sgr0)
         sleep 1
         bpm=
@@ -685,7 +657,7 @@ do_howto() {
     echo "2 - Enable desired switches from the Switch mini menu."
     sleep 3
     echo ""
-    echo "3 - It is possible to change output location. 
+    echo "3 - It is possible to change output location.
 
     $(tput bold)$(tput setaf 1)(O)  select new output folder$(tput sgr0)"
     sleep 3
@@ -695,18 +667,18 @@ do_howto() {
     $(tput bold)$(tput setaf 1)(TH) set running threads manually$(tput setaf 7)(max 20)$(tput sgr0)"
     sleep 2
     echo ""
-    echo "5 - Reset and start over at any time. 
+    echo "5 - Reset and start over at any time.
 
     $(tput bold)$(tput setaf 1)(R)  reset switches$(tput sgr0)"
     sleep 3
     echo ""
-    echo "6 - when ready. 
+    echo "6 - when ready.
 
     $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) run Switch mini$(tput sgr0)
     to start mlv to dng transcoding"
     sleep 3
     echo ""
-    echo "feel free to test the other menu options in Switch mini menu and report 
+    echo "feel free to test the other menu options in Switch mini menu and report
 any problems at https://www.magiclantern.fm/forum/"
     sleep 3
     echo ""
@@ -772,7 +744,7 @@ do_select_output_folder() {
     # Check if output path preference file exists
     if [ -f "$preferenceDir"output ]; then
         rm "$preferenceDir"output
-        out=
+        out="$(cat "$preferenceDir"switchmini/path_1)"
     else
 
         # Check if directory $in or $out exist and can be used as default location, fallback to Desktop otherwise
@@ -851,14 +823,14 @@ while true; do
     $(tput bold)MLV input: $(tput setaf 4)$in$(tput sgr0)
     $(tput bold)dng output: $(tput setaf 4)$out$(tput sgr0)
     $(tput bold)physical cpu: $(tput setaf 4)$cpu$(tput sgr0)
-	
+    
 -- DNG output --
     $(tput bold)(00) no chroma smoothing$(tput sgr0)   $nocs
-    $(tput bold)(01) 2x2 chroma smoothing$(tput sgr0)  $cs2	
+    $(tput bold)(01) 2x2 chroma smoothing$(tput sgr0)  $cs2
     $(tput bold)(02) 3x3 chroma smoothing$(tput sgr0)  $cs3
     $(tput bold)(03) 5x5 chroma smoothing$(tput sgr0)  $cs5
     $(tput bold)(04) do not fix focus pixels$(tput sgr0)  $fixfp
-    $(tput bold)(05) do not fix cold pixels$(tput sgr0)  $fixcp 
+    $(tput bold)(05) do not fix cold pixels$(tput sgr0)  $fixcp
     $(tput bold)(06) fix non-static$(tput sgr0)(moving) $(tput bold)cold pixels$(tput sgr0)(slow) $fixcp2
     $(tput bold)(07) turn off vertical stripes correction $nostripes
     $(tput bold)(08) force vertical stripes$(tput sgr0)(slow, every frame)  $fstripes
@@ -880,11 +852,11 @@ while true; do
     $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
     $(tput bold)$(tput setaf 1)(R)  reset switches$(tput sgr0)
     $(tput bold)$(tput setaf 1)(O)  select new output folder$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(TH) set running threads manually$(tput setaf 7)(max 32)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS$(tput sgr0) 
+    $(tput bold)$(tput setaf 1)(TH) set running threads manually$(tput setaf 7)(max 32)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  quit Switch mini$(tput sgr0)
     $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) run Switch mini$(tput sgr0)
-			 
-  					        					
+             
+                                                  
 Enable your switches. Reselect for reset:
 EOF
 
@@ -936,18 +908,20 @@ echo "START RUNNING"
 # Keep system awake until script finishes
 # Run caffeinate in background, in a subshell which returns immediately,
 # this way caffeinate won't lock the wait command (script would otherwise never end because caffeinate keeps running)
-( caffeinate & ) 
+( caffeinate & )
 
 #check for new output folder
 if [ -f "$preferenceDir"output ]; then
     mkdir -p "$(cat "$preferenceDir"output)"
-    O=$(cat "$preferenceDir""output")/
+    O=$(cat "$preferenceDir""output")
 fi
 
 ###############################################################
 #Processing MLV files into folders with dng files
 #create the mlv time command list
 #Will take white space
+#Don´t use this when working with multiple folders
+if ! [ -f ~/Library/Preferences/Dannephoto/folder_paths.txt ]; then
 OLDIFS=$IFS
 IFS=$'\n'
 ls *.MLV *.mlv >"$preferenceDir"switchmini/MLVFILES
@@ -970,6 +944,7 @@ rm "$preferenceDir"switchmini/MLVFILES
 
 #remove any old fpm files
 rm *.fpm
+fi
 
 #Multiprocessing scripts build here. Up to 32 scripts possible
 
@@ -985,6 +960,17 @@ mlv_dump_thread() {
 
     #Processing MLV files into folders with dng files
     while ! [ x"$(cat "$preferenceDir"switchmini/MLVFILESa$1)" = x ]; do
+    
+    #changed output location?
+    if [ -d "$outputlocation" ]; then
+        cd "$(cat "$preferenceDir"switchmini/path_1)"/
+        mkdir -p "$(cat "$preferenceDir"output)"
+        #output="$O${BASE}_1_$date"/
+        output="$outputlocation$(basename "$PWD")/${BASE}_1_$date"/
+        O="$outputlocation$(basename "$PWD")"/
+        mkdir -p "$O"
+    fi
+    
         FILE1=$(cat "$preferenceDir"switchmini/"MLVFILESa$1" | head -1)
         date=$(mlv_dump -v "$FILE1" | grep 'Date' | head -1 | awk 'FNR == 1 {print $2; exit}')
         date_01=$(echo "$date" | head -c2)
@@ -992,14 +978,8 @@ mlv_dump_thread() {
         date_03=$(echo "$date" | cut -c7-10)
         date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
         BASE=$(echo "$FILE1" | cut -d "." -f1)
-        mkdir "$O""${BASE}"
-        mv "$O""${BASE}" "$O""${BASE}_1_$date"
-
-        #changed output location?
-        if [ -d "$outputlocation" ]; then
-            mkdir -p "$(cat "$preferenceDir"output)"
-            output="$O${BASE}_1_$date"/
-        fi
+        mkdir -p "$O""${BASE}"
+        mv -i "$O""${BASE}" "$O""${BASE}_1_$date"
 
         #reworked fpm routines to meet the latest pixelmaps. Only for eosm for now
         if grep 'EOS M' <<<$(mlv_dump -v "$FILE1" | awk '/Camera Name/ { print $4,$5; exit}'); then
@@ -1071,13 +1051,13 @@ mlv_dump_thread() {
         if ! [ -d "$outputlocation" ]; then
             mlv_dump --dng $mlv -o "${BASE}_1_$date"/"${BASE}_1_$date"_ "$FILE1"
         else
-            #enter an alternate location
-            mlv_dump --dng $mlv -o "$output""${BASE}_1_$date"_ "$path_1""$FILE1"
+            #enter an alternate location but also export to a mirrored root folder
+            mlv_dump --dng $mlv -o "$O"/"${BASE}_1_$date"/"${BASE}_1_$date"_ "$path_1""$FILE1"
         fi
-
+        
         #check if cam was set to auto white balance. Non dualiso
         if [ "$(mlv_dump -v "$(cat "$preferenceDir"switchmini/path_1)"/"$FILE1" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ] || [ -f "$preferenceDir"switchminiawb ]; then
-            cd "$O""${BASE}_1_$date"
+            cd "$O"/"${BASE}_1_$date"
             . "$path_2"awb.command
             wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
             find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
@@ -1088,6 +1068,8 @@ mlv_dump_thread() {
     done
 }
 
+#Don´t use this when working with multiple folders
+if ! [ -f ~/Library/Preferences/Dannephoto/folder_paths.txt ]; then
 alpha=abcdefghijklmnopqrstuvqxyz
 counter=0
 num=0
@@ -1110,6 +1092,62 @@ while grep -q 'MLV\|mlv'<<<$(cat "$preferenceDir"switchmini/MLVFILES*) ;do for s
     wait < <(jobs -p)
 #rm any created fpm files
 rm *.fpm
+fi
+
+#Multiple folder support. Only kicks in when singe folder isn´t selected.
+while [ -d "$(printf "%s\n" "$(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | head -1)")" ]; do
+    OLDIFS=$IFS
+    IFS=$'\n'
+    ls *.MLV *.mlv >"$preferenceDir"switchmini/MLVFILES
+    #reset IFS
+    IFS=$OLDIFS
+    #specify THREADS if
+    if [ -f "$preferenceDir"THREADS ]; then
+        THR=$(cat "$preferenceDir"THREADS | tr -d Threads)
+    else
+        half=$(echo $(sysctl -n hw.physicalcpu) / 2 | bc -l | cut -d "." -f1)
+        echo "Threads" $(echo $(sysctl -n hw.physicalcpu) + $half | bc -l) >"$preferenceDir"THREADS
+    fi
+    #safety check(fools gold)
+    if (($THR > 32)); then
+        THR=$(echo 32)
+    fi
+    #split into max 32 chunks
+    split -l $(($(wc -l <"$preferenceDir"switchmini/MLVFILES) / $THR + 1)) "$preferenceDir"switchmini/MLVFILES "$preferenceDir"switchmini/MLVFILES
+    rm "$preferenceDir"switchmini/MLVFILES
+    
+    #remove any old fpm files
+    rm *.fpm
+
+alpha=abcdefghijklmnopqrstuvqxyz
+counter=0
+num=0
+n=1
+
+while [ $counter -lt $THR ]; do
+    # bash -c "$path_2/mlv_dump.sh ${alpha:$num:$n} & pid1=$!"
+    mlv_dump_thread ${alpha:$num:$n} >> "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt 2>&1 &
+
+    #increment both numbers and alphabet
+    num=$(($num + 1))
+    counter=$(($counter + 1))
+done
+
+printf '\e[8;5;50t'
+clear
+echo "Processing now. Close Terminal window to abort."
+while grep -q 'MLV\|mlv'<<<$(cat "$preferenceDir"switchmini/MLVFILES*) ;do for s in $(cat "$preferenceDir"switchmini/MLVFILES* | grep 'MLV\|mlv' | wc -l); do printf "\r$s MLV files left to process";sleep 1;done;done &
+#wait for jobs to end
+    wait < <(jobs -p)
+#rm any created fpm files
+clear
+rm *.fpm
+printf "%s\n" $(tail -n +2 ~/Library/Preferences/Dannephoto/folder_paths.txt) > ~/Library/Preferences/Dannephoto/folder_paths.txt
+printf "%s\n" $(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | head -1) > ~/Library/Preferences/Dannephoto/switchmini/path_1
+printf "%s\n" $(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | head -1) > ~/Library/Preferences/Dannephoto/path_1
+preferenceDir=~/Library/Preferences/Dannephoto/
+cd "$(cat "$preferenceDir"switchmini/path_1)"
+done
 
 clear
 echo "DONE!"
