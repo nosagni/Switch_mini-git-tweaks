@@ -47,12 +47,13 @@ fi
 in="$(cat "$preferenceDir"switchmini/path_1)"
 
 #set your output folder
-if [ -f "$preferenceDir""output" ]
+if [ -d "$(cat "$preferenceDir"output)" ]
 then
     osascript -e 'display notification "Your output folder changed" with title "Switch mini"'
     out=$(cat "$preferenceDir""output")
 else
-    out=$(cat "$preferenceDir"switchmini/"path_1")
+    rm "$preferenceDir"output
+    out="$(cat "$preferenceDir"switchmini/path_1)"
 fi
 
 #erase mlv_dump settings
@@ -911,7 +912,7 @@ echo "START RUNNING"
 ( caffeinate & )
 
 #check for new output folder
-if [ -f "$preferenceDir"output ]; then
+if [ -f "$preferenceDir"output ] && [ -d ]; then
     mkdir -p "$(cat "$preferenceDir"output)"
     O=$(cat "$preferenceDir""output")
 fi
@@ -951,18 +952,13 @@ fi
 mlv_dump_thread() {
     #mlv folder path
     path_1="$(cat "$preferenceDir"switchmini/path_1)"/
-    #output location
-    if [ -f "$preferenceDir"output ]; then
-        outputlocation="$(cat "$preferenceDir"output)"
-    fi
-
-    # argument $1 is a letter combination
-
+    
     #Processing MLV files into folders with dng files
     while ! [ x"$(cat "$preferenceDir"switchmini/MLVFILESa$1)" = x ]; do
     
     #changed output location?
-    if [ -d "$outputlocation" ]; then
+    if [ -d "$(cat "$preferenceDir"output)" ]; then
+        outputlocation="$(cat "$preferenceDir"output)"
         cd "$(cat "$preferenceDir"switchmini/path_1)"/
         mkdir -p "$(cat "$preferenceDir"output)"
         #output="$O${BASE}_1_$date"/
