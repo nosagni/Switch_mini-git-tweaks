@@ -179,27 +179,6 @@ fi
 # How many physical cpus do your computer have
 cpu=$(sysctl -n hw.physicalcpu)
 
-do_nocs() {
-    p=
-    if grep 'no-cs' "$preferenceDir"mlv_dump_settings; then
-        find "$preferenceDir"mlv_dump_settings | xargs perl -pi -e 's/ --no-cs//g'
-        nocs=
-        echo $(tput bold)"
-
-$(tput sgr0)$(tput bold)$(tput setaf 1)
-Removed"$(tput sgr0)
-    else
-        printf "%s\n" " --no-cs" >>"$preferenceDir"mlv_dump_settings
-        nocs=$(echo "$bold""$green"added!"$normal")
-        find "$preferenceDir"mlv_dump_settings | xargs perl -pi -e 's/ --cs2x2//g'
-        find "$preferenceDir"mlv_dump_settings | xargs perl -pi -e 's/ --cs3x3//g'
-        find "$preferenceDir"mlv_dump_settings | xargs perl -pi -e 's/ --cs5x5//g'
-        cs2=
-        cs3=
-        cs5=
-    fi
-}
-
 do_cs2() {
     p=
     if grep 'cs2' "$preferenceDir"mlv_dump_settings; then
@@ -826,7 +805,6 @@ while true; do
     $(tput bold)physical cpu: $(tput setaf 4)$cpu$(tput sgr0)
     
 -- DNG output --
-    $(tput bold)(00) no chroma smoothing$(tput sgr0)   $nocs
     $(tput bold)(01) 2x2 chroma smoothing$(tput sgr0)  $cs2
     $(tput bold)(02) 3x3 chroma smoothing$(tput sgr0)  $cs3
     $(tput bold)(03) 5x5 chroma smoothing$(tput sgr0)  $cs5
@@ -864,7 +842,6 @@ EOF
     read -n2
 
     case $REPLY in
-    "00" | 0) do_nocs ;;
     "01" | 1) do_cs2 ;;
     "02" | 2) do_cs3 ;;
     "03" | 3) do_cs5 ;;
