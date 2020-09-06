@@ -644,7 +644,7 @@ do_howto() {
     echo ""
     echo "4 - You can increase thread amount.
 
-    $(tput bold)$(tput setaf 1)(TH) set running threads manually$(tput setaf 7)(max 20)$(tput sgr0)"
+    $(tput bold)$(tput setaf 1)(TH) set processing threads manually$(tput setaf 7)(max 32)$(tput sgr0)"
     sleep 2
     echo ""
     echo "5 - Reset and start over at any time.
@@ -831,7 +831,7 @@ while true; do
     $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
     $(tput bold)$(tput setaf 1)(R)  reset switches$(tput sgr0)
     $(tput bold)$(tput setaf 1)(O)  select new output folder$(tput sgr0)
-    $(tput bold)$(tput setaf 1)(TH) set running threads manually$(tput setaf 7)(max 32)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(TH) set processing threads manually$(tput setaf 7)(max 32)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  quit Switch mini$(tput sgr0)
     $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) run Switch mini$(tput sgr0)
              
