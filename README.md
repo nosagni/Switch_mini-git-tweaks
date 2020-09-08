@@ -6,7 +6,7 @@ Main reasons releasing Switch mini are to gain processing speed and to make full
 
 **Switch mini**
 
-![Screen_Shot_2017-07-26_at_10.05.56.png](https://i.postimg.cc/3wz0MHPb/Ska-rmavbild-2020-09-06-kl-21-49-55-png-scaled.png)
+![Screen_Shot_2017-07-26_at_10.05.56.png](https://i.postimg.cc/CKpx43jv/Ska-rmavbild-2020-09-08-kl-09-00-07-png-scaled.png)
 
 ![Screen_Shot_2017-07-26_at_10.05.56.png](https://i.postimg.cc/CxLqk7GJ/Ska-rmavbild-2020-09-06-kl-21-51-37-png-scaled.png)
 

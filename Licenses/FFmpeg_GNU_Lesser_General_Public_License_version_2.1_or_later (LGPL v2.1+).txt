@@ -1,0 +1,18 @@
+#FFmpeg is a trademark of Fabrice Bellard, originator of the FFmpeg project.
+#FFmpeg GNU Lesser General Public License version 2.1 or later (LGPL v2.1+) 
+#GNU General Public License, version 2
+#https://www.ffmpeg.org/legal.html 
+
+version 4.1
+
+sources
+https://github.com/FFmpeg/FFmpeg
+
+
+
+
+
+
+
+
+

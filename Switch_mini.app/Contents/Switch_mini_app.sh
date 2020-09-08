@@ -32,6 +32,11 @@ preferenceDir=~/Library/Preferences/Dannephoto/
 path_2="$(pwd)/"
 cd "$(cat "$preferenceDir"switchmini/path_1)"
 
+#start with a fresh log
+if [ -f "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt ]; then
+rm "$(cat "$preferenceDir"switchmini/path_1)"/LOG.txt
+fi
+
 export PATH="$path_2":$PATH
 
 mkdir -p "$preferenceDir"switchmini/
@@ -61,7 +66,7 @@ if ! [ -f "$preferenceDir"mlv_dump_settings ]; then
     echo >"$preferenceDir"mlv_dump_settings
 fi
 
-printf '\e[8;43;73t'
+printf '\e[8;46;73t'
 printf '\e[3;450;0t'
 bold="$(tput bold)"
 normal="$(tput sgr0)"
@@ -174,6 +179,14 @@ if grep ' \--skip-xref' "$preferenceDir"mlv_dump_settings; then
 fi
 if [ -f "$preferenceDir"switchminiawb ]; then
     awb=$(echo "$bold""$green"added!"$normal")
+fi
+if [ -f "$preferenceDir"switchminiprores ]; then
+    proxy=
+    prores=$(echo "$bold""$green"added!"$normal")
+fi
+if [ -f "$preferenceDir"switchminiproxy ]; then
+    prores=
+    proxy=$(echo "$bold""$green"added!"$normal")
 fi
 
 # How many physical cpus do your computer have
@@ -621,6 +634,34 @@ do_awb() {
     # printf '\e[3;450;0t'
 }
 
+do_prores() {
+    prores=
+    proxy=
+    if ! [ -f "$preferenceDir"switchminiprores ]; then
+        echo >"$preferenceDir"switchminiprores
+        prores=$(echo "$bold""$green"added!"$normal")
+        rm "$preferenceDir"switchminiproxy
+    else
+        rm "$preferenceDir"switchminiprores
+    fi
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
+}
+
+do_proxy() {
+    prores=
+    proxy=
+    if ! [ -f "$preferenceDir"switchminiproxy ]; then
+        echo >"$preferenceDir"switchminiproxy
+        proxy=$(echo "$bold""$green"added!"$normal")
+        rm "$preferenceDir"switchminiprores
+    else
+        rm "$preferenceDir"switchminiproxy
+    fi
+    # printf '\e[8;43;73t'
+    # printf '\e[3;450;0t'
+}
+
 do_howto() {
     clear
     echo $(tput bold)"Welcome to Switch mini."
@@ -695,8 +736,12 @@ do_reset_switches() {
     out=
     THREADS=
     awb=
+    prores=
+    proxy=
     xref=
     rm "$preferenceDir"switchminiawb
+    rm "$preferenceDir"switchminiprores
+    rm "$preferenceDir"switchminiproxy
     rm "$preferenceDir"THREADS
     half=$(echo $(sysctl -n hw.physicalcpu) / 2 | bc -l | cut -d "." -f1)
     echo "Threads" $(echo $(sysctl -n hw.physicalcpu) + $half | bc -l) >"$preferenceDir"THREADS
@@ -827,6 +872,8 @@ while true; do
     $(tput bold)(20) bad pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=1),default=1$(tput bold)$(tput setaf 4) $bpm$(tput sgr0)
     $(tput bold)(21) skip loading .IDX (XREF). Use if audio is problematic$(tput sgr0) $xref$(tput sgr0)
     $(tput bold)(22) apply auto white balance to your dng files $(tput sgr0) $awb$(tput sgr0)
+    $(tput bold)(23) prores output$(tput sgr0)(ffmpeg) $prores$(tput sgr0)
+    $(tput bold)(24) lowres proxy output$(tput sgr0)(ffmpeg) $proxy$(tput sgr0)
 
     $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
     $(tput bold)$(tput setaf 1)(R)  reset switches$(tput sgr0)
@@ -864,6 +911,8 @@ EOF
     "20") do_bpm ;;
     "21") do_xref ;;
     "22") do_awb ;;
+    "23") do_prores ;;
+    "24") do_proxy ;;
 
     "h") do_howto ;;
     "R") do_reset_switches ;;
@@ -1034,6 +1083,33 @@ mlv_dump_thread() {
             . "$path_2"awb.command
             wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
             find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
+            
+          if [ -f "$preferenceDir"switchminiprores ] || [ -f "$preferenceDir"switchminiproxy ]; then
+              fps=$(exiftool *000000*.{dng,DNG} | awk '/Frame Rate/ { print $4; exit }')
+              #will null values if no audio
+                  wav1=
+                  sd=
+               #search for wav1 file
+               if ls *.wav
+               then
+                   if ! [ "$(ls *.wav |wc -c | perl -p -e 's/^[ \t]*//')" = 6 ]
+                   then
+                     wav1=$(printf "%s\n" -i *.wav)
+                     sd=$(printf "%s\n" -c:v copy -c:a aac)
+                 #extra check if mlvfs contains dummy wav
+                     [ -s *.wav ] || wav1=
+                     [ -s *.wav ] || sd=
+                   fi
+               fi
+              
+             if [ -f "$preferenceDir"switchminiprores ]; then
+                 find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h2 -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" ../"${BASE}_1_$date".mov
+             else
+                 find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h2 -c -6 -h -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -profile:v 0 -pix_fmt yuv444p10 -n -r "$fps"  ../"${BASE}_1_$date".mov
+             fi
+            
+          fi
+            
             cd ..
         fi
 
