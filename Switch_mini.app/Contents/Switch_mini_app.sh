@@ -749,6 +749,11 @@ do_reset_switches() {
     rm "$preferenceDir"content
     rm "$preferenceDir"path_1
     rm "$preferenceDir"output 1>/dev/null 2>&1 &
+    if [ -d /tmp/switchmini/cardspan ]; then
+    rm -r /tmp/switchmini/cardspan
+    in="$(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | awk 'FNR == 1')"
+    out="$(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | awk 'FNR == 1')"
+    fi
     #set your output folder
     if [ x"$out" = x ]; then
         out=$(cat "$preferenceDir"switchmini/"path_1")$(tput sgr0)
@@ -791,6 +796,80 @@ do_select_output_folder() {
         fi
 
     fi
+}
+
+do_select_spanned_cards() {
+printf '\e[8;10;73t'
+printf '\e[3;450;0t'
+clear
+echo $(tput bold)"Card spanning workflow"$(tput sgr0)
+echo ""
+cat<<EOF
+$(tput bold)$(tput setaf 1)(m)  main$(tput sgr0)
+$(tput bold)$(tput setaf 1)(q)  exit $(tput sgr0)
+EOF
+echo ""
+read -p $(tput bold)"This means you dragged both CF and SD card onto Switch mini?
+$(tput setaf 1)[y/n]
+"$(tput sgr0)
+echo
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    card1="$(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | awk 'FNR == 1')"
+    card2="$(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | awk 'FNR == 2')"
+    rm -r /tmp/switchmini/cardspan
+    mkdir -p /tmp/switchmini/cardspan
+    
+    ln -s $(find "$card1" -iname '*.M*') /tmp/switchmini/cardspan
+    ln -s $(find "$card2" -iname '*.M*') /tmp/switchmini/cardspan
+    
+    echo "/tmp/switchmini/cardspan" > "$preferenceDir"switchmini/path_1
+    cd "$(cat "$preferenceDir"switchmini/path_1)"
+    in="/tmp/switchmini/cardspan/(tempfolder)"
+    
+    clear
+    echo "Now select your output folder"
+    
+   if [[ $REPLY != ^[m]$ ]]; then
+    
+    # When the output path is stored, then clear it (unset output path) and return to menu.
+    # If there's no output path stored, ask the user to choose a new output path.
+    # Not sure if this is how it's supposed to work though.
+    # At least it's a good example of a folder chooser with default location using Applescript,
+    # no need for another Automator App inside.
+
+    rm -f "$preferenceDir"switchmini/O_trap
+
+    # Check if output path preference file exists
+
+        out="$(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | awk 'FNR == 1')"
+        # Check if directory $in or $out exist and can be used as default location, fallback to Desktop otherwise
+        if [ -d "$out" ]; then
+            newOut=$out
+        elif [ -d "$in" ]; then
+            newOut=$in
+        else
+            newOut="~/Desktop/"
+        fi
+
+        applescriptCode="set T to POSIX path of (choose folder with prompt \"Please select an output folder:\" default location POSIX file \"$newOut\")"
+        newOut=$(osascript -e "$applescriptCode")
+
+        # Check if newOut is not empty (user cancelled the dialog)
+        if [ -n "$newOut" ]; then
+            echo "$newOut" >"$preferenceDir"output
+            out=$newOut
+        fi
+
+   fi
+
+fi
+
+if [[ $REPLY =~ ^[q]$ ]]; then
+    osascript -e 'tell application "Terminal" to close first window' & exit
+fi
+
+printf '\e[8;46;73t'
+printf '\e[3;450;0t'
 }
 
 do_set_thread_count() {
@@ -878,6 +957,7 @@ while true; do
     $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
     $(tput bold)$(tput setaf 1)(R)  reset switches$(tput sgr0)
     $(tput bold)$(tput setaf 1)(O)  select new output folder$(tput sgr0)
+    $(tput bold)$(tput setaf 1)(CS) card spanning$(tput sgr0)(5D3 only)
     $(tput bold)$(tput setaf 1)(TH) set processing threads manually$(tput setaf 7)(max 32)$(tput sgr0)$(tput bold)$(tput setaf 4) $THREADS$(tput sgr0)
     $(tput bold)$(tput setaf 1)(q)  quit Switch mini$(tput sgr0)
     $(tput bold)$(tput setaf 1)(r) ${bold}$(tput setaf 1) run Switch mini$(tput sgr0)
@@ -917,6 +997,7 @@ EOF
     "h") do_howto ;;
     "R") do_reset_switches ;;
     "O") do_select_output_folder ;;
+    "CS") do_select_spanned_cards ;;
     "TH") do_set_thread_count ;;
     "q") do_quit ;;
     "r")
