@@ -1158,40 +1158,40 @@ mlv_dump_thread() {
             mlv_dump --dng $mlv -o "$O"/"${BASE}_1_$date"/"${BASE}_1_$date"_ "$path_1""$FILE1"
         fi
         
-        #check if cam was set to auto white balance. Non dualiso
+        #check if cam was set to auto white balance.
         if [ "$(mlv_dump -v "$(cat "$preferenceDir"switchmini/path_1)"/"$FILE1" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ] || [ -f "$preferenceDir"switchminiawb ]; then
             cd "$O""${BASE}_1_$date"
             . "$path_2"awb.command
             wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
             find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
-            
-          if [ -f "$preferenceDir"switchminiprores ] || [ -f "$preferenceDir"switchminiproxy ]; then
-              fps=$(exiftool *000000*.{dng,DNG} | awk '/Frame Rate/ { print $4; exit }')
-              #will null values if no audio
-                  wav1=
-                  sd=
-               #search for wav1 file
-               if ls *.wav
-               then
-                   if ! [ "$(ls *.wav |wc -c | perl -p -e 's/^[ \t]*//')" = 6 ]
-                   then
-                     wav1=$(printf "%s\n" -i *.wav)
-                     sd=$(printf "%s\n" -c:v copy -c:a aac)
-                 #extra check if mlvfs contains dummy wav
-                     [ -s *.wav ] || wav1=
-                     [ -s *.wav ] || sd=
-                   fi
-               fi
-              
-             if [ -f "$preferenceDir"switchminiprores ]; then
-                 find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h2 -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" ../"${BASE}_1_$date".mov
-             else
-                 find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h2 -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -profile:v 0 -pix_fmt yuv444p10 -n -r "$fps"  ../"${BASE}_1_$date".mov
+            cd ..
+        fi
+        
+        if [ -f "$preferenceDir"switchminiprores ] || [ -f "$preferenceDir"switchminiproxy ]; then
+        cd "$O""${BASE}_1_$date"
+            fps=$(exiftool *000000*.{dng,DNG} | awk '/Frame Rate/ { print $4; exit }')
+            #will null values if no audio
+                wav1=
+                sd=
+             #search for wav1 file
+             if ls *.wav
+             then
+                 if ! [ "$(ls *.wav |wc -c | perl -p -e 's/^[ \t]*//')" = 6 ]
+                 then
+                   wav1=$(printf "%s\n" -i *.wav)
+                   sd=$(printf "%s\n" -c:v copy -c:a aac)
+               #extra check if mlvfs contains dummy wav
+                   [ -s *.wav ] || wav1=
+                   [ -s *.wav ] || sd=
+                 fi
              fi
             
-          fi
-            
-            cd ..
+           if [ -f "$preferenceDir"switchminiprores ]; then
+               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h2 -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" ../"${BASE}_1_$date".mov
+           else
+               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h2 -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -profile:v 0 -pix_fmt yuv444p10 -n -r "$fps"  ../"${BASE}_1_$date".mov
+           fi
+        cd ..
         fi
 
         echo "$(tail -n +2 "$preferenceDir"switchmini/MLVFILESa$1)" >"$preferenceDir"switchmini/MLVFILESa$1
