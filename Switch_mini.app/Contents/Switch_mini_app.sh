@@ -1272,9 +1272,9 @@ while grep -q 'MLV\|mlv'<<<$(cat "$preferenceDir"switchmini/MLVFILES*) ;do for s
 #rm any created fpm files
 clear
 rm *.fpm
-printf "%s\n" $(tail -n +2 ~/Library/Preferences/Dannephoto/folder_paths.txt) > ~/Library/Preferences/Dannephoto/folder_paths.txt
-printf "%s\n" $(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | head -1) > ~/Library/Preferences/Dannephoto/switchmini/path_1
-printf "%s\n" $(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | head -1) > ~/Library/Preferences/Dannephoto/path_1
+echo $(tail -n +2 ~/Library/Preferences/Dannephoto/folder_paths.txt) > ~/Library/Preferences/Dannephoto/folder_paths.txt
+echo $(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | head -1) > ~/Library/Preferences/Dannephoto/switchmini/path_1
+echo $(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | head -1) > ~/Library/Preferences/Dannephoto/path_1
 preferenceDir=~/Library/Preferences/Dannephoto/
 cd "$(cat "$preferenceDir"switchmini/path_1)"
 done
