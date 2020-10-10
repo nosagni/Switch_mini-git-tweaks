@@ -1187,9 +1187,9 @@ mlv_dump_thread() {
              fi
             
            if [ -f "$preferenceDir"switchminiprores ]; then
-               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h2 -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" ../"${BASE}_1_$date".mov
+               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -H 2 -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" ../"${BASE}_1_$date".mov
            else
-               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -profile:v 0 -pix_fmt yuv444p10 -n -r "$fps"  ../"${BASE}_1_$date".mov
+               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -profile:v 0 -pix_fmt yuv444p10 -n -r "$fps"  ../"${BASE}_1_$date".mov
            fi
         cd ..
         fi
