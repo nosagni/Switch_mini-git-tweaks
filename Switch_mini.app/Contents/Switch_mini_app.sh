@@ -951,8 +951,8 @@ while true; do
     $(tput bold)(20) bad pixel method: $(tput sgr0)(mlvfs=0),(raw2dng=1),default=1$(tput bold)$(tput setaf 4) $bpm$(tput sgr0)
     $(tput bold)(21) skip loading .IDX (XREF). Use if audio is problematic$(tput sgr0) $xref$(tput sgr0)
     $(tput bold)(22) apply auto white balance to your dng files $(tput sgr0) $awb$(tput sgr0)
-    $(tput bold)$(tput setaf 6)(23) prores output$(tput sgr0)(ffmpeg) $prores$(tput sgr0)
-    $(tput bold)$(tput setaf 6)(24) lowres proxy output$(tput sgr0)(ffmpeg) $proxy$(tput sgr0)
+    $(tput bold)$(tput setaf 6)(23) prores output$(tput sgr0)(ffmpeg,dcraw -H 2 set) $prores$(tput sgr0)
+    $(tput bold)$(tput setaf 6)(24) lowres proxy output$(tput sgr0)(ffmpeg,dcraw) $proxy$(tput sgr0)
 
     $(tput bold)$(tput setaf 4)(h)  HOWTO$(tput sgr0)
     $(tput bold)$(tput setaf 1)(R)  reset switches$(tput sgr0)
