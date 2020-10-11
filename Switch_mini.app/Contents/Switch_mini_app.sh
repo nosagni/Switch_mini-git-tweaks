@@ -1278,6 +1278,11 @@ echo $(cat ~/Library/Preferences/Dannephoto/folder_paths.txt | head -1) > ~/Libr
 preferenceDir=~/Library/Preferences/Dannephoto/
 cd "$(cat "$preferenceDir"switchmini/path_1)"
 done
+#we need the fodler paths back here to be able and open by double tap if drag drop and finished converting
+if [ -f ~/Library/Preferences/Dannephoto/folder_paths.txt ]; then
+echo "$(pwd)/" > ~/Library/Preferences/Dannephoto/path_1
+echo "$(pwd)/" > ~/Library/Preferences/Dannephoto/switchmini/path_1
+fi
 
 clear
 echo "DONE!"
