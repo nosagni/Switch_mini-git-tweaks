@@ -1068,8 +1068,8 @@ mlv_dump_thread() {
         outputlocation="$(cat "$preferenceDir"output)"
         cd "$(cat "$preferenceDir"switchmini/path_1)"/
         mkdir -p "$(cat "$preferenceDir"output)"
-        #output="$O${BASE}_1_$date"/
-        output="$outputlocation$(basename "$PWD")/${BASE}_1_$date"/
+        #output="$O${BASE}_C0000"/
+        output="$outputlocation$(basename "$PWD")/${BASE}_C0000"/
         O="$outputlocation$(basename "$PWD")"/
         mkdir -p "$O"
     fi
@@ -1079,10 +1079,10 @@ mlv_dump_thread() {
         date_01=$(echo "$date" | head -c2)
         date_02=$(echo "$date" | cut -c4-5)
         date_03=$(echo "$date" | cut -c7-10)
-        date=$(echo "$date_03"-"$date_02"-"$date_01""_0001_C0000")
+        date=$(echo "_C0000")
         BASE=$(echo "$FILE1" | cut -d "." -f1)
         mkdir -p "$O""${BASE}"
-        mv -i "$O""${BASE}" "$O""${BASE}_1_$date"
+        mv -i "$O""${BASE}" "$O""${BASE}_C0000"
 
         #reworked fpm routines to meet the latest pixelmaps. Only for eosm for now
         if grep 'EOS M' <<<$(mlv_dump -v "$FILE1" | awk '/Camera Name/ { print $4,$5; exit}'); then
@@ -1152,23 +1152,23 @@ mlv_dump_thread() {
 
         #extract dng frames
         if ! [ -d "$outputlocation" ]; then
-            mlv_dump --dng $mlv -o "${BASE}_1_$date"/"${BASE}_1_$date"_ "$FILE1"
+            mlv_dump --dng $mlv -o "${BASE}_C0000"/"${BASE}_C0000"_ "$FILE1"
         else
             #enter an alternate location but also export to a mirrored root folder
-            mlv_dump --dng $mlv -o "$O"/"${BASE}_1_$date"/"${BASE}_1_$date"_ "$path_1""$FILE1"
+            mlv_dump --dng $mlv -o "$O"/"${BASE}_C0000"/"${BASE}_C0000"_ "$path_1""$FILE1"
         fi
         
         #check if cam was set to auto white balance.
         if [ "$(mlv_dump -v "$(cat "$preferenceDir"switchmini/path_1)"/"$FILE1" | grep -A6 'Block: WBAL' | awk 'FNR == 6 {print $2; exit}')" = "0" ] || [ -f "$preferenceDir"switchminiawb ]; then
-            cd "$O""${BASE}_1_$date"
+            cd "$O""${BASE}_C0000"
             . "$path_2"awb.command
-            wi=$(exiv2 -pt "${BASE}"_1_"$date"_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
+            wi=$(exiv2 -pt "${BASE}"_C0000_000000.dng | awk '/Exif.Image.AsShotNeutral/ { print $4,$5,$6; exit}')
             find . -maxdepth 1 -mindepth 1 -name '*.dng' -print0 | xargs -0 -P 8 -n 1 exiv2 -M"set Exif.Image.AsShotNeutral Rational $wi"
             cd ..
         fi
         
         if [ -f "$preferenceDir"switchminiprores ] || [ -f "$preferenceDir"switchminiproxy ]; then
-        cd "$O""${BASE}_1_$date"
+        cd "$O""${BASE}_C0000"
             fps=$(exiftool *000000*.{dng,DNG} | awk '/Frame Rate/ { print $4; exit }')
             #will null values if no audio
                 wav1=
@@ -1187,9 +1187,9 @@ mlv_dump_thread() {
              fi
             
            if [ -f "$preferenceDir"switchminiprores ]; then
-               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -H 2 -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" ../"${BASE}_1_$date".mov
+               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -H 2 -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -pix_fmt yuv444p10 -n -r "$fps" ../"${BASE}_C0000".mov
            else
-               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -profile:v 0 -pix_fmt yuv444p10 -n -r "$fps"  ../"${BASE}_1_$date".mov
+               find -s . -maxdepth 1 -iname '*.dng' -print0 | xargs -0 dcraw -h -c -6 -w -W  | ffmpeg -loglevel warning $wav1 -f image2pipe -vcodec ppm -r "$fps" -i pipe:0 $sd -vcodec prores_ks -profile:v 0 -pix_fmt yuv444p10 -n -r "$fps"  ../"${BASE}_C0000".mov
            fi
         cd ..
         fi

@@ -43,6 +43,9 @@ hdiutil convert "pack.temp.dmg" -format UDZO -imagekey zlib-level=9 -o "Switch_m
 rm -f pack.temp.dmg
 rm -R "${source}"
 
+#overwrite Switch_mini.app in Applications
+cp -rf Switch_mini.app /Applications
+
 #bitbucket uploading api
 repo="$(cat .git/config | grep 'url' | rev | cut -d "/" -f1 | rev | cut -d "." -f1)"
 usr="$(cat .git/config | grep 'url' | rev | cut -d "/" -f2 | rev | cut -d "." -f1)"
