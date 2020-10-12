@@ -1,4 +1,4 @@
-# **Switch mini** - bitbucket.org/Dannephoto/switch_mini-git
+# **Switch mini** #
 Forked mlv_dump functions into a smaller more reliable, faster app. On top of that ml user Jip-Hop refined more or less all included scripts into a slimmed down one script solution. 
 Mlv_dump version based on ml user bouncyball´s mlv_dump on steroids branch which includes most functions from mlvfs(dmilligan). 
 Main reasons releasing Switch mini are to gain processing speed and to make full use of bad pixel fix routines working the same as in mlvfs and Mlv App. Switch mini is also able to perform auto white balancing, correcting multipliers, and pushing them into the AsShotNeutral dng tag with a little help from dcraw and exiv2.
